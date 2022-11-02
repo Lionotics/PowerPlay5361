@@ -2,12 +2,15 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; //AHUHIRI
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
+
+
 public class TestingDriving extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -15,10 +18,10 @@ public class TestingDriving extends LinearOpMode {
         // Make sure your ID's match your configuration
         PhotonCore.enable();
 
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("leftFront");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("leftRear");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("rightFront");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("rightRear");
+        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("frontLeft");
+        DcMotor motorBackLeft = hardwareMap.dcMotor.get("backLeft");
+        DcMotor motorFrontRight = hardwareMap.dcMotor.get("frontRight");
+        DcMotor motorBackRight = hardwareMap.dcMotor.get("backRight");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
