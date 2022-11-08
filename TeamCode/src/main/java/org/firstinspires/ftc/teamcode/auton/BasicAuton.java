@@ -3,18 +3,21 @@ package org.firstinspires.ftc.teamcode.auton;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
 @TeleOp
-public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
+public class BasicAuton extends LinearOpMode
 {
+    // Create a RobotHardware object to be used to access robot hardware.
+    // Prefix any hardware functions with "robot." to access this class.
+    RobotHardware   robot       = new RobotHardware(this);
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -146,11 +149,17 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
         /* Actually do something useful */
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
-            // Park On Left
+            // Park Left
+            // Move left for testing
+            robot.driveRobot(-1, 1, 1, -1);
         } else if(tagOfInterest.id == MIDDLE){
             // Park Middle
+            // Move forward for testing
+            robot.driveRobot(1,1,1,1);
         } else {
-            // Park right
+            // Park Right
+            // Move right for testing
+            robot.driveRobot(1,-1,-1,1);
         }
 
 

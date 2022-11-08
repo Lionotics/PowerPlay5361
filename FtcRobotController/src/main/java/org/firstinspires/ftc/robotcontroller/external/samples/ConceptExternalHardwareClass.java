@@ -96,7 +96,7 @@ public class ConceptExternalHardwareClass extends LinearOpMode {
             turn  =  gamepad1.right_stick_x;
 
             // Combine drive and turn for blended motion. Use RobotHardware class
-            robot.driveRobot(drive, turn);
+            // BROKEN DUE TO REWRITING OF HARDWARE CLASS robot.driveRobot(drive, turn);
 
             // Use gamepad left & right Bumpers to open and close the claw
             // Use the SERVO constants defined in RobotHardware class.
