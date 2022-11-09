@@ -18,10 +18,12 @@ public class TestingDriving extends LinearOpMode {
         // Make sure your ID's match your configuration
         PhotonCore.enable();
 
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("frontLeft");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("backLeft");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("frontRight");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("backRight");
+        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("leftFront");
+        DcMotor motorBackLeft = hardwareMap.dcMotor.get("leftBack");
+        DcMotor motorFrontRight = hardwareMap.dcMotor.get("rightFront");
+        DcMotor motorBackRight = hardwareMap.dcMotor.get("rightBack");
+
+        DcMotor lift = hardwareMap.dcMotor.get("arm");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
@@ -32,6 +34,7 @@ public class TestingDriving extends LinearOpMode {
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Retrieve the IMU from the hardware map
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -69,6 +72,14 @@ public class TestingDriving extends LinearOpMode {
             motorBackLeft.setPower(backLeftPower);
             motorFrontRight.setPower(frontRightPower);
             motorBackRight.setPower(backRightPower);
+
+            if (gamepad1.dpad_up){
+                lift.setPower(1);
+            } else if (gamepad1.dpad_down){
+                lift.setPower(-1);
+            } else {
+                lift.setPower(0);
+            }
         }
     }
 }
