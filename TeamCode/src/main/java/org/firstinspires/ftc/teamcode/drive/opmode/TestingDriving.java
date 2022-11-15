@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,23 +9,34 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; //AHUHIRI
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@TeleOp
+import org.firstinspires.ftc.teamcode.hardware.Slides;
+
+@TeleOp(name = "TELEOP")
+
 
 
 public class TestingDriving extends LinearOpMode {
+
+
     @Override
     public void runOpMode() throws InterruptedException {
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = dashboard.getTelemetry();
+
         // Declare our motors
         // Make sure your ID's match your configuration
         PhotonCore.enable();
+
+
 
         DcMotor motorFrontLeft = hardwareMap.dcMotor.get("leftFront");
         DcMotor motorBackLeft = hardwareMap.dcMotor.get("leftBack");
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("rightFront");
         DcMotor motorBackRight = hardwareMap.dcMotor.get("rightBack");
 
-        DcMotor lift = hardwareMap.dcMotor.get("arm");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
@@ -34,7 +47,9 @@ public class TestingDriving extends LinearOpMode {
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        Slides slides = new Slides();
+        slides.init(hardwareMap);
 
         // Retrieve the IMU from the hardware map
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -73,13 +88,18 @@ public class TestingDriving extends LinearOpMode {
             motorFrontRight.setPower(frontRightPower);
             motorBackRight.setPower(backRightPower);
 
-            if (gamepad1.dpad_up){
-                lift.setPower(1);
+            if (gamepad1.dpad_up ){
+                slides.moveUp();
             } else if (gamepad1.dpad_down){
-                lift.setPower(-1);
+                slides.moveDown();
             } else {
-                lift.setPower(0);
+                slides.hold();
             }
+
+            //Telemetry
+
+            telemetry.addData("Slides Position", slides.getPosition());
+            telemetry.update();
         }
     }
 }
