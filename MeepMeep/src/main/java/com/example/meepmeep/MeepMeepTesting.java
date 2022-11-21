@@ -21,26 +21,24 @@ public class MeepMeepTesting {
                 .setConstraints(45,30,toRadians(180),toRadians(180),15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
-                                .strafeTo(new Vector2d(38.8-25,-61.5+5))
-                                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
-                                .waitSeconds(2)
-                                .forward(-5)
-                                .lineToLinearHeading(new Pose2d(11,-10,toRadians(0)))
-                                .lineToLinearHeading(new Pose2d(62,-12,toRadians(0)))
-                                .waitSeconds(2)
-                                .forward(-20)
-                                .lineToLinearHeading(new Pose2d(29, -5, toRadians(135)))
-                                .waitSeconds(2)
-                                // 1
-//                                .lineToLinearHeading(new Pose2d(55,-10,toRadians(90)))
-                                // 2
-//                                .lineToLinearHeading(new Pose2d(35,-10,toRadians(90)))
-                                // 3
-                                .forward(-10)
-                                .lineToLinearHeading(new Pose2d(60,-10,toRadians(90)))
-
-
-
+                                .strafeTo(new Vector2d(38.8-22,-61.5+10))
+                                .forward(9)
+                                .lineToLinearHeading(new Pose2d(8.8+2,-30.5+2,toRadians(90+45)))
+//                                .waitSeconds(2)
+//                                .forward(-5)
+//                                .lineToLinearHeading(new Pose2d(11,-10,toRadians(0)))
+//                                .lineToLinearHeading(new Pose2d(62,-12,toRadians(0)))
+//                                .waitSeconds(2)
+//                                .forward(-20)
+//                                .lineToLinearHeading(new Pose2d(29, -5, toRadians(135)))
+//                                .waitSeconds(2)
+//                                // 1
+////                                .lineToLinearHeading(new Pose2d(55,-10,toRadians(90)))
+//                                // 2
+////                                .lineToLinearHeading(new Pose2d(35,-10,toRadians(90)))
+//                                // 3
+//                                .forward(-10)
+//                                .lineToLinearHeading(new Pose2d(60,-10,toRadians(90)))
                                 .build()
                 );
 

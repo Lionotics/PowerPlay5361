@@ -6,8 +6,8 @@ Control Hub Portal
             2 - leftFront 5202/3/4 series
             3 - leftBack 5202/3/4 series
         Servos
-            0 - leftHand
-            1 - rightHand 
+            4 - servo1
+            5 - servo2 
     Expansion Hub
         Motors
             0 - arm 5202/3/4 series

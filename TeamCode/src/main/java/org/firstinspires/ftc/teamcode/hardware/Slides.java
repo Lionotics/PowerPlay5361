@@ -50,6 +50,11 @@ public class Slides extends Mechanism{
             lift.setPower(-1);
         }
     }
+    public void raise(){
+        lift.setTargetPosition(2900);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setPower(0.5);
+    }
 
 }
 

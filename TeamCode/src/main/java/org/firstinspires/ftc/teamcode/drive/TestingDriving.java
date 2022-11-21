@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
 
 @TeleOp(name = "TELEOP")
@@ -50,6 +51,9 @@ public class TestingDriving extends LinearOpMode {
 
         Slides slides = new Slides();
         slides.init(hardwareMap);
+
+        Intake intake = new Intake();
+        intake.init(hardwareMap);
 
         // Retrieve the IMU from the hardware map
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -96,6 +100,13 @@ public class TestingDriving extends LinearOpMode {
                 slides.hold();
             }
 
+            if(gamepad1.a){
+                intake.intake();
+            } else if (gamepad1.b){
+              intake.drop();
+            } else{
+                intake.stop();
+            }
             //Telemetry
 
             telemetry.addData("Slides Position", slides.getPosition());

@@ -1,12 +1,21 @@
 package org.firstinspires.ftc.teamcode.auton;
 
+import static java.lang.Math.toRadians;
+
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.hardware.Intake;
+import org.firstinspires.ftc.teamcode.hardware.Slides;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -20,7 +29,6 @@ public class BasicAuton extends LinearOpMode
 {
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
-    RobotHardware   robot       = new RobotHardware(this);
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -44,6 +52,7 @@ public class BasicAuton extends LinearOpMode
     int RIGHT =3;
     AprilTagDetection tagOfInterest = null;
 
+
     @Override
     public void runOpMode()
     {
@@ -51,7 +60,6 @@ public class BasicAuton extends LinearOpMode
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
-        robot.init();
 
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -70,6 +78,28 @@ public class BasicAuton extends LinearOpMode
         });
 
         telemetry.setMsTransmissionInterval(50);
+
+        Intake intake = new Intake();
+        intake.init(hardwareMap);
+        Slides slides = new Slides();
+        slides.init(hardwareMap);
+
+        intake.stop();
+
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(new Pose2d(38.8, -61.5, toRadians(90)));
+
+
+
+        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
+                .strafeTo(new Vector2d(38.8-22,-61.5+10))
+                .forward(9)
+                .lineToLinearHeading(new Pose2d(8.8+2,-30.5+2,toRadians(90+45)))
+                .forward(2)
+
+//                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
+                .build();
+
 
         /*
          * The INIT-loop:
@@ -156,20 +186,22 @@ public class BasicAuton extends LinearOpMode
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
             // Park Left
             // Move left for testing
-            robot.driveRobot(-1, 1, 1, -1);
+//            robot.driveRobot(-1, 1, 1, -1);
         } else if(tagOfInterest.id == MIDDLE){
             // Park Middle
             // Move forward for testing
-            robot.driveRobot(1,1,1,1);
+//            robot.driveRobot(1,1,1,1);
         } else {
             // Park Right
             // Move right for testing
-            robot.driveRobot(1,-1,-1,1);
         }
+        slides.raise();
+        drive.followTrajectorySequence(stepOne);
+        intake.drop();
 
 
-        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {sleep(20);}
+
+
     }
 
     void tagToTelemetry(AprilTagDetection detection)
