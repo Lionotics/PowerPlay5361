@@ -52,25 +52,25 @@ public class Slides extends Mechanism{
 
     public void moveUp() {
         if (lift.getCurrentPosition() > SLIDES_TOP_POS) {
-            moveDirection = 1
+            moveDirection = 1;
             lift.setPower(1);
         }
     }
 
     public void moveDown() {
         if (lift.getCurrentPosition() < SLIDES_BOTTOM_POS) {
-            moveDirection = 2
+            moveDirection = 2;
             lift.setPower(-1);
         }
     }
     public void raise(){
-        moveDirection = 1
+        moveDirection = 1;
         lift.setTargetPosition(2900);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
     }
     public void lower(){
-        moveDirection = 2
+        moveDirection = 2;
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
