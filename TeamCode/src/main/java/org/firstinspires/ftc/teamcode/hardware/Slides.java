@@ -39,6 +39,15 @@ public class Slides extends Mechanism{
         return lift.getCurrentPosition();
     }
 
+    public void setLiftMode(DcMotor.RunMode runMode)  {
+            lift.setMode(runMode);
+    }
+
+    public DcMotor.RunMode getRunmode(){
+        return lift.getMode();
+    }
+
+
     public void moveUp() {
         if (lift.getCurrentPosition() > SLIDES_TOP_POS) {
             lift.setPower(1);
@@ -53,8 +62,21 @@ public class Slides extends Mechanism{
     public void raise(){
         lift.setTargetPosition(2900);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lift.setPower(0.5);
+        lift.setPower(1);
     }
+    public void lower(){
+        lift.setTargetPosition(0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setPower(1);
+
+    }
+
+    public int getTargetPosition() {
+        return  lift.getTargetPosition();
+    }
+
+
+
 
 }
 

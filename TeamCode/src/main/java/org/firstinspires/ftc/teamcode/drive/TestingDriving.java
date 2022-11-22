@@ -100,6 +100,20 @@ public class TestingDriving extends LinearOpMode {
                 slides.hold();
             }
 
+
+            if (gamepad1.y) {
+                slides.raise();
+            } else if (gamepad1.a) {
+                slides.lower();
+            }
+
+            if (Math.abs(slides.getPosition()) >= 2800  && slides.getTargetPosition() == 2900)  {
+                slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            } else if ( Math.abs(slides.getPosition()) <= 100) {
+                slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+
+            
             if(gamepad1.a){
                 intake.intake();
             } else if (gamepad1.b){
@@ -107,9 +121,14 @@ public class TestingDriving extends LinearOpMode {
             } else{
                 intake.stop();
             }
+
+
+
             //Telemetry
 
             telemetry.addData("Slides Position", slides.getPosition());
+            telemetry.addData("SLides mode", slides.getRunmode());
+            telemetry.addData("Slides target position",slides.getTargetPosition());
             telemetry.update();
         }
     }
