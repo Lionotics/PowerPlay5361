@@ -16,6 +16,7 @@ public class Slides extends Mechanism{
 
 
     private DcMotor lift;
+    private int moveDirection = 0; // 0 equals not moving, 1 equals up, 2 equals down
 
     @Override
     public void init(HardwareMap hwMap) {
@@ -28,6 +29,7 @@ public class Slides extends Mechanism{
     }
 
     public void hold(){
+        moveDirection = 0;
         lift.setPower(SLIDES_HOLDING_CURRENT);
     }
 
@@ -50,21 +52,25 @@ public class Slides extends Mechanism{
 
     public void moveUp() {
         if (lift.getCurrentPosition() > SLIDES_TOP_POS) {
+            moveDirection = 1
             lift.setPower(1);
         }
     }
 
     public void moveDown() {
         if (lift.getCurrentPosition() < SLIDES_BOTTOM_POS) {
+            moveDirection = 2
             lift.setPower(-1);
         }
     }
     public void raise(){
+        moveDirection = 1
         lift.setTargetPosition(2900);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
     }
     public void lower(){
+        moveDirection = 2
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
@@ -74,7 +80,10 @@ public class Slides extends Mechanism{
     public int getTargetPosition() {
         return  lift.getTargetPosition();
     }
-
+    public int getMoveDirection() {
+        return moveDirection; 
+    }
+    
 
 
 
