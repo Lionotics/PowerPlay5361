@@ -107,9 +107,9 @@ public class TestingDriving extends LinearOpMode {
                 slides.lower();
             }
 
-            if (Math.abs(slides.getPosition()) >= 2800  && slides.getTargetPosition() == 2900)  {
+            if (Math.abs(slides.getPosition()) >= 2800  && slides.getMoveDirection == 1)  {
                 slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            } else if ( Math.abs(slides.getPosition()) <= 100) {
+            } else if ( Math.abs(slides.getPosition()) <= 100 && slides.getMoveDirection == 2) {
                 slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
