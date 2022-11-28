@@ -7,29 +7,31 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 // Class representing our vertical slides
 
+
+
 @Config
 public class Slides extends Mechanism{
 
     public static double SLIDES_HOLDING_CURRENT = 0.1;
-    public static double SLIDES_TOP_POS = -3300;
-    public static double SLIDES_BOTTOM_POS = -100;
+    public static double SLIDES_TOP_POS = 3200;
+    public static double SLIDES_BOTTOM_POS = 100;
 
 
     private DcMotor lift;
-    private int moveDirection = 0; // 0 equals not moving, 1 equals up, 2 equals down
 
     @Override
     public void init(HardwareMap hwMap) {
         lift = hwMap.dcMotor.get("arm");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 
     public void hold(){
-        moveDirection = 0;
         lift.setPower(SLIDES_HOLDING_CURRENT);
     }
 
@@ -51,26 +53,22 @@ public class Slides extends Mechanism{
 
 
     public void moveUp() {
-        if (lift.getCurrentPosition() > SLIDES_TOP_POS) {
-            moveDirection = 1;
+        if (lift.getCurrentPosition() < SLIDES_TOP_POS) {
             lift.setPower(1);
         }
     }
 
     public void moveDown() {
-        if (lift.getCurrentPosition() < SLIDES_BOTTOM_POS) {
-            moveDirection = 2;
+        if (lift.getCurrentPosition() > SLIDES_BOTTOM_POS) {
             lift.setPower(-1);
         }
     }
-    public void raise(){
-        moveDirection = 1;
-        lift.setTargetPosition(2900);
+    public void raiseToTop(){
+        lift.setTargetPosition((int) SLIDES_TOP_POS);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
     }
     public void lower(){
-        moveDirection = 2;
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
@@ -80,9 +78,7 @@ public class Slides extends Mechanism{
     public int getTargetPosition() {
         return  lift.getTargetPosition();
     }
-    public int getMoveDirection() {
-        return moveDirection; 
-    }
+    public boolean isBusy(){return lift.isBusy();}
     
 
 
