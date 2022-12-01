@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.Button;
 import org.firstinspires.ftc.teamcode.hardware.Drivetrain;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
@@ -50,6 +51,9 @@ public class TestingDriving extends LinearOpMode {
         Intake intake = new Intake();
         intake.init(hardwareMap);
 
+        Button gamepad1y = new Button(false);
+        Button gamepad1a = new Button(false);
+
 
 
         waitForStart();
@@ -58,10 +62,13 @@ public class TestingDriving extends LinearOpMode {
 
         while (opModeIsActive()) {
 
+            gamepad1a.update(gamepad1.x);
+            gamepad1y.update(gamepad1.y);
+
             drive.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
 
-            switch (slides_state){
+           /* switch (slides_state){
                 case AUTO_MOVE:
                     if(!slides.isBusy()){
                         slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -70,30 +77,41 @@ public class TestingDriving extends LinearOpMode {
                     break;
 
                 case MANUAL_MOVE:
-                    if (!gamepad1.dpad_down || gamepad1.dpad_up){
+                    if (!gamepad1.dpad_down || !gamepad1.dpad_up){
                         slides.hold();
                         slides_state = SLIDES_STATE.HOLDING;
                         }
                     break;
 
                 case HOLDING:
-                    if (gamepad1.dpad_up && Math.abs(slides.getPosition()) <= 2800){
+                    if (gamepad1.dpad_up && slides.getPosition() < 3200){
                         slides.moveUp();
                         slides_state = SLIDES_STATE.MANUAL_MOVE;
 
-                    } else if (gamepad1.dpad_down &&  Math.abs(slides.getPosition()) >= 100){
+                    } else if (gamepad1.dpad_down &&  slides.getPosition() > 100){
                         slides.moveDown();
                         slides_state = SLIDES_STATE.MANUAL_MOVE;
 
-                    } else if(gamepad1.y){
+                    } if(gamepad1y.isNewlyPressed()){
                         slides.raiseToTop();
                         slides_state = SLIDES_STATE.AUTO_MOVE;
-
-                    } else if(gamepad1.a){
+                    } else if(gamepad1a.isNewlyPressed()){
                         slides.lower();
                         slides_state = SLIDES_STATE.AUTO_MOVE;
                     }
                     break;
+            } */
+
+            if (gamepad1.dpad_up) {
+                if(Math.abs(slides.getPosition()) < 3100) {
+                    slides.moveUp();
+                }
+            } else if (gamepad1.dpad_down) {
+                if(Math.abs(slides.getPosition()) > 100) {
+                    slides.moveDown();
+                }
+            } else{
+                slides.hold();
             }
 
             if(gamepad1.x){
@@ -109,6 +127,7 @@ public class TestingDriving extends LinearOpMode {
             telemetry.addData("SLides mode", slides.getRunmode());
             telemetry.addData("Slides target position",slides.getTargetPosition());
             telemetry.addData("Slides state", slides_state);
+            telemetry.addData("isBusy",slides.isBusy());
             telemetry.update();
 
         }

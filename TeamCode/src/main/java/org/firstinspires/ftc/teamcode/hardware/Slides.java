@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Slides extends Mechanism{
 
     public static double SLIDES_HOLDING_CURRENT = 0.1;
-    public static double SLIDES_TOP_POS = 3200;
+    public static int SLIDES_TOP_POS = 3200;
     public static double SLIDES_BOTTOM_POS = 100;
 
 
@@ -53,18 +53,19 @@ public class Slides extends Mechanism{
 
 
     public void moveUp() {
-        if (lift.getCurrentPosition() < SLIDES_TOP_POS) {
+//        if (lift.getCurrentPosition() < SLIDES_TOP_POS) {
             lift.setPower(1);
-        }
+//        }
     }
 
     public void moveDown() {
-        if (lift.getCurrentPosition() > SLIDES_BOTTOM_POS) {
+//        if (lift.getCurrentPosition() > SLIDES_BOTTOM_POS) {
             lift.setPower(-1);
-        }
+//        }
     }
+
     public void raiseToTop(){
-        lift.setTargetPosition((int) SLIDES_TOP_POS);
+        lift.setTargetPosition(SLIDES_TOP_POS);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
     }
@@ -79,7 +80,7 @@ public class Slides extends Mechanism{
         return  lift.getTargetPosition();
     }
     public boolean isBusy(){return lift.isBusy();}
-    
+    public  void setTargetPosition (int a) {lift.setTargetPosition(a);}
 
 
 

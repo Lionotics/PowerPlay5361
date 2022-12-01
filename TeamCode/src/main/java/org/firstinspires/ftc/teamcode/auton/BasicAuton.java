@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -31,6 +32,11 @@ public class BasicAuton extends LinearOpMode
 
     static final double FEET_PER_METER = 3.28084;
 
+    enum PARKING_LOCATION{
+      LEFT,
+      MIDDLE,
+      RIGHT
+    };
     // Lens intrinsics
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
@@ -83,19 +89,53 @@ public class BasicAuton extends LinearOpMode
 
         intake.stop();
 
+        PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(new Pose2d(38.8, -61.5, toRadians(90)));
 
 
 
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
-                .strafeTo(new Vector2d(38.8-22,-61.5+10))
+                .splineTo(new Vector2d(38.8-22,-61.5+10),toRadians(90))
                 .forward(9)
-                .lineToLinearHeading(new Pose2d(8.8+2,-30.5+2,toRadians(90+45)))
-                .forward(2)
+                .splineTo(new Vector2d(10.8+2,-28.5), toRadians(135))
+                .forward(0.3)
 
 //                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
                 .build();
+
+        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(new Pose2d(10.6,-28.3, toRadians(135)))
+                .back(5)
+                .turn(toRadians(-45))
+//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+                .forward(20)
+                .build();
+
+        TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(new Pose2d(10.6,-28.3, toRadians(135)))
+                .back(5)
+                .turn(toRadians(-45))
+//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+                .forward(20)
+//                                .strafeRight(20)
+//                .splineTo(new Vector2d(35.5,-10),toRadians(90))
+                .turn(toRadians(-90))
+                .forward(25)
+                .turn(toRadians(90))
+                .build();
+
+        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(new Pose2d(10.6,-28.3, toRadians(135)))
+                .back(5)
+                .turn(toRadians(-45))
+//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+                .forward(20)
+                .turn(toRadians(-90))
+                .forward(50)
+                .turn(toRadians(90))                          .build();
+
+
+
+
 
 
         /*
@@ -181,20 +221,37 @@ public class BasicAuton extends LinearOpMode
 
         /* Actually do something useful */
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
+
             // Park Left
+            parking_location = PARKING_LOCATION.LEFT;
             // Move left for testing
 //            robot.driveRobot(-1, 1, 1, -1);
         } else if(tagOfInterest.id == MIDDLE){
             // Park Middle
-            // Move forward for testing
-//            robot.driveRobot(1,1,1,1);
+            parking_location = parking_location.MIDDLE;
         } else {
             // Park Right
-            // Move right for testing
+            parking_location = parking_location.RIGHT;
         }
         slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
+        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides.hold();
         intake.drop();
+        sleep(2000);
+        intake.stop();
+
+        if(parking_location == PARKING_LOCATION.RIGHT){
+            drive.followTrajectorySequence(parkRight);
+        } else if (parking_location == PARKING_LOCATION.MIDDLE){
+            drive.followTrajectorySequence(parkMiddle);
+        }  else{
+            drive.followTrajectorySequence(parkLeft);
+
+        }
+        slides.lower();
+        sleep(3000);
+
 
 
 
