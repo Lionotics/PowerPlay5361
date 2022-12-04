@@ -102,21 +102,21 @@ public class TestingDriving extends LinearOpMode {
                     break;
             } */
 
-            if (gamepad1.dpad_up) {
+            if (gamepad1.right_bumper || gamepad2.right_bumper) {
                 if(Math.abs(slides.getPosition()) < 3100) {
                     slides.moveUp();
                 }
-            } else if (gamepad1.dpad_down) {
-                if(Math.abs(slides.getPosition()) > 100) {
+            } else if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                if(Math.abs(slides.getPosition()) > 250) {
                     slides.moveDown();
                 }
             } else{
                 slides.hold();
             }
 
-            if(gamepad1.x){
+            if(gamepad1.right_trigger > 0.1 || gamepad2.right_trigger > 0.1){
                 intake.intake();
-            } else if (gamepad1.b){
+            } else if (gamepad1.left_trigger > 0.1 || gamepad2.left_trigger > 0.1){
               intake.drop();
             } else{
                 intake.stop();

@@ -23,8 +23,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Auto - BLUE Right side")
-public class BasicAuton extends LinearOpMode
+@Autonomous(name = "Auto - RED Right side")
+public class RedRight extends LinearOpMode
 {
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
@@ -34,9 +34,9 @@ public class BasicAuton extends LinearOpMode
     static final double FEET_PER_METER = 3.28084;
 
     enum PARKING_LOCATION{
-      LEFT,
-      MIDDLE,
-      RIGHT
+        LEFT,
+        MIDDLE,
+        RIGHT
     };
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -226,7 +226,7 @@ public class BasicAuton extends LinearOpMode
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
 
             // Park Left
-            parking_location = PARKING_LOCATION.LEFT;
+            parking_location = PARKING_LOCATION.RIGHT;
             // Move left for testing
 //            robot.driveRobot(-1, 1, 1, -1);
         } else if(tagOfInterest.id == MIDDLE){
@@ -234,7 +234,7 @@ public class BasicAuton extends LinearOpMode
             parking_location = parking_location.MIDDLE;
         } else {
             // Park Right
-            parking_location = parking_location.RIGHT;
+            parking_location = parking_location.LEFT;
         }
         slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);

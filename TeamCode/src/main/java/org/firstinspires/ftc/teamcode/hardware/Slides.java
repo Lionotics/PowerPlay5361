@@ -24,10 +24,10 @@ public class Slides extends Mechanism{
         lift = hwMap.dcMotor.get("arm");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+//        lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+//        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 
@@ -65,15 +65,25 @@ public class Slides extends Mechanism{
     }
 
     public void raiseToTop(){
-        lift.setTargetPosition(SLIDES_TOP_POS);
+        lift.setTargetPosition(-SLIDES_TOP_POS);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lift.setPower(1);
+        lift.setPower(0.5);
+//        while(lift.isBusy()){}
+//        lift.setPower(0);
+//        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
     public void lower(){
         lift.setTargetPosition(0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lift.setPower(1);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setPower(0.8);
 
+
+        while(Math.abs(lift.getCurrentPosition()) > 20){
+        }
+
+        lift.setPower(0);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public int getTargetPosition() {
