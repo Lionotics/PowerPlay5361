@@ -27,4 +27,8 @@ public class Intake extends Mechanism{
         servo1.setPower(1);
         servo2.setPower(-1);
     }
-}
+    public void stopForReal(){
+
+        servo1.setPower(0);
+        servo2.setPower(0);
+    }}

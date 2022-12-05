@@ -38,7 +38,7 @@ public class TestingDriving extends LinearOpMode {
 
         // Declare our motors
         // Make sure your ID's match your configuration
-        PhotonCore.enable();
+//        PhotonCore.enable();
 
         //Mechanism setup
         Drivetrain drive = new Drivetrain();
@@ -120,6 +120,10 @@ public class TestingDriving extends LinearOpMode {
               intake.drop();
             } else{
                 intake.stop();
+            }
+
+            if(gamepad1.x){
+                slides.moveDown();
             }
 
             //Telemetry

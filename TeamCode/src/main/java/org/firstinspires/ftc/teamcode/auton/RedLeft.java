@@ -86,10 +86,10 @@ public class RedLeft extends LinearOpMode
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
-//        Slides slides = new Slides();
-//        slides.init(hardwareMap);
+        Slides slides = new Slides();
+        slides.init(hardwareMap);
 
-        intake.stop();
+        intake.stopForReal();
 
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
@@ -101,8 +101,8 @@ public class RedLeft extends LinearOpMode
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(-38.8, -61.5, toRadians(90)))
                 .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
                 .forward(9)
-                .splineTo(new Vector2d(-12.8,-28.5), toRadians(45))
-                .forward(2.5)
+                .splineTo(new Vector2d(-12.8,-29.5), toRadians(45))
+                .forward(2)
 
 //                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
                 .build();
@@ -127,11 +127,11 @@ public class RedLeft extends LinearOpMode
                 .build();
 
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(new Pose2d(-14.6,-26.8, toRadians(45)))                                   .back(5)
-                .turn(toRadians(45))
+                .turn(toRadians(48))
 //                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
                 .forward(20)
                 .turn(toRadians(90))
-                .forward(45)
+                .forward(49)
                 .turn(toRadians(-90))
                 .build();
 
@@ -225,7 +225,7 @@ public class RedLeft extends LinearOpMode
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
 
             // Park Left
-            parking_location = PARKING_LOCATION.RIGHT;
+            parking_location = PARKING_LOCATION.LEFT;
             // Move left for testing
 //            robot.driveRobot(-1, 1, 1, -1);
         } else if(tagOfInterest.id == MIDDLE){
@@ -233,12 +233,14 @@ public class RedLeft extends LinearOpMode
             parking_location = parking_location.MIDDLE;
         } else {
             // Park Right
-            parking_location = parking_location.LEFT;
+            parking_location = parking_location.RIGHT;
         }
-//        slides.raiseToTop();
+        slides.raiseToTop();
+        intake.stop();
+        sleep(1000);
         drive.followTrajectorySequence(stepOne);
-//        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        slides.hold();
+        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides.hold();
         intake.drop();
         sleep(1250);
         intake.stop();
@@ -251,7 +253,7 @@ public class RedLeft extends LinearOpMode
             drive.followTrajectorySequence(parkLeft);
 
         }
-//        slides.lower();
+        slides.lower();
         sleep(1000);
 
 

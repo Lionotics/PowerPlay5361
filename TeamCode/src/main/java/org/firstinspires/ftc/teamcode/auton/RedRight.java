@@ -89,7 +89,7 @@ public class RedRight extends LinearOpMode
         Slides slides = new Slides();
         slides.init(hardwareMap);
 
-        intake.stop();
+        intake.stopForReal();
 
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
@@ -101,7 +101,7 @@ public class RedRight extends LinearOpMode
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
                 .splineTo(new Vector2d(38.8-22,-61.5+10),toRadians(90))
                 .forward(9)
-                .splineTo(new Vector2d(12.8,-28.5), toRadians(135))
+                .splineTo(new Vector2d(11.8,-29.5), toRadians(135))
                 .forward(2.5)
 
 //                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
@@ -132,7 +132,7 @@ public class RedRight extends LinearOpMode
 //                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
                 .forward(20)
                 .turn(toRadians(-90))
-                .forward(45)
+                .forward(46)
                 .turn(toRadians(90))
                 .build();
 
@@ -226,7 +226,7 @@ public class RedRight extends LinearOpMode
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
 
             // Park Left
-            parking_location = PARKING_LOCATION.RIGHT;
+            parking_location = PARKING_LOCATION.LEFT;
             // Move left for testing
 //            robot.driveRobot(-1, 1, 1, -1);
         } else if(tagOfInterest.id == MIDDLE){
@@ -234,8 +234,10 @@ public class RedRight extends LinearOpMode
             parking_location = parking_location.MIDDLE;
         } else {
             // Park Right
-            parking_location = parking_location.LEFT;
+            parking_location = parking_location.RIGHT;
         }
+        intake.stop();
+        sleep(1000);
         slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
         slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

@@ -86,10 +86,10 @@ public class AutoLeft extends LinearOpMode
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
-//        Slides slides = new Slides();
-//        slides.init(hardwareMap);
+        Slides slides = new Slides();
+        slides.init(hardwareMap);
 
-        intake.stop();
+        intake.stopForReal();
 
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
@@ -101,7 +101,7 @@ public class AutoLeft extends LinearOpMode
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(-38.8, -61.5, toRadians(90)))
                 .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
                 .forward(9)
-                .splineTo(new Vector2d(-12.8,-28.5), toRadians(45))
+                .splineTo(new Vector2d(-12.8,-29.5), toRadians(45))
                 .forward(2.5)
 
 //                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
@@ -235,10 +235,12 @@ public class AutoLeft extends LinearOpMode
             // Park Right
             parking_location = parking_location.RIGHT;
         }
-//        slides.raiseToTop();
+        intake.stop();
+        sleep(1000);
+        slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
-//        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        slides.hold();
+        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides.hold();
         intake.drop();
         sleep(1250);
         intake.stop();
