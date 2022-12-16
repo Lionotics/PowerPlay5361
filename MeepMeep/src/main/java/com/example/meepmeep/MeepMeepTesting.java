@@ -18,11 +18,26 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(45,30,toRadians(60),toRadians(60),15)
+                .setConstraints(30,20,toRadians(60),toRadians(60),15)
                 .followTrajectorySequence(drive ->
 
-//                        //  RIGHT
-//                        drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
+                        //  RIGHT
+                        drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
+                                .forward(35)
+                                .splineTo(new Vector2d(29,-5),toRadians(135))
+                                .waitSeconds(1.5)
+                                .back(13)
+                                .turn(toRadians(-90))
+//                                .turn(toRadians(-180))
+                                .splineTo(new Vector2d(60.5,-11.5),toRadians(0))
+//                                .forward(5)
+//                                .waitSeconds(2)
+//                                .back(10)
+//                                .splineTo(new Vector2d(29,-5),toRadians(-135))
+
+
+
+//                                .splineTo()
 //                                .splineTo(new Vector2d(38.8-22,-61.5+10),toRadians(90))
 //                                .forward(9)
 //                                .splineTo(new Vector2d(8.8+2,-30.5+2), toRadians(90+45))
@@ -39,34 +54,34 @@ public class MeepMeepTesting {
 
 
                                 // BLUE LEFT
-                                drive.trajectorySequenceBuilder(new Pose2d(-38.8, -61.5, toRadians(90)))
-//                                        .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
-//                                        .forward(9)
-//                                        .splineTo(new Vector2d(-10.8,-30.5+2), toRadians(90+45))
-//                                        .forward(0.5)
-//                                        .waitSeconds(2)
-//                                        .back(2)
-//                                        .turn(toRadians(-45))
-//                                        .forward(20)
-//                                        .turn(toRadians(90))
-//                                        .forward(50)
-//                                        .turn(toRadians(-90))
-                                        .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
-                                        .forward(9)
-                                        .splineTo(new Vector2d(-12.8,-28.5), toRadians(45))
-                                        .forward(2.5)
-                                        .back(5)
-                                        .turn(toRadians(45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                                        .forward(20)
-//                                .strafeRight(20)
-//                .splineTo(new Vector2d(35.5,-10),toRadians(90))
-                                        .turn(toRadians(90))
-                                        .forward(25)
-                                        .turn(toRadians(-90))
-
-
-//                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
+//                                drive.trajectorySequenceBuilder(new Pose2d(-38.8, -61.5, toRadians(90)))
+////                                        .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
+////                                        .forward(9)
+////                                        .splineTo(new Vector2d(-10.8,-30.5+2), toRadians(90+45))
+////                                        .forward(0.5)
+////                                        .waitSeconds(2)
+////                                        .back(2)
+////                                        .turn(toRadians(-45))
+////                                        .forward(20)
+////                                        .turn(toRadians(90))
+////                                        .forward(50)
+////                                        .turn(toRadians(-90))
+////                                        .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
+////                                        .forward(9)
+////                                        .splineTo(new Vector2d(-28.8,-28.5), toRadians(45))
+////                                        .forward(2.5)
+////                                        .back(5)
+////                                        .turn(toRadians(45))
+////                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+////                                        .forward(20)
+////                                .strafeRight(20)
+////                .splineTo(new Vector2d(35.5,-10),toRadians(90))
+////                                        .turn(toRadians(90))
+////                                        .forward(25)
+////                                        .turn(toRadians(-90))
+//
+//
+////                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
                                         .build()
 
 //
