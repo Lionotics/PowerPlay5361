@@ -23,7 +23,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Auto - BLUE LEFT side")
+@Autonomous(name = "Auto - Left side")
 public class AutoLeft extends LinearOpMode
 {
     // Create a RobotHardware object to be used to access robot hardware.
@@ -239,7 +239,7 @@ public class AutoLeft extends LinearOpMode
         sleep(1000);
         slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
-        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slides.hold();
         intake.drop();
         sleep(1250);

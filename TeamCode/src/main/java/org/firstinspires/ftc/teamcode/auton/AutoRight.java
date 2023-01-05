@@ -23,8 +23,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Auto - RED Right side")
-public class RedRight extends LinearOpMode
+@Autonomous(name = "Auto - Right side")
+public class AutoRight extends LinearOpMode
 {
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
@@ -34,9 +34,9 @@ public class RedRight extends LinearOpMode
     static final double FEET_PER_METER = 3.28084;
 
     enum PARKING_LOCATION{
-        LEFT,
-        MIDDLE,
-        RIGHT
+      LEFT,
+      MIDDLE,
+      RIGHT
     };
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -60,11 +60,11 @@ public class RedRight extends LinearOpMode
     @Override
     public void runOpMode()
     {
+
         PhotonCore.enable();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-
 
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -77,9 +77,7 @@ public class RedRight extends LinearOpMode
 
             @Override
             public void onError(int errorCode)
-            {
-
-            }
+            {}
         });
 
         telemetry.setMsTransmissionInterval(50);
@@ -99,7 +97,7 @@ public class RedRight extends LinearOpMode
 
 
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
-                .splineTo(new Vector2d(38.8-22,-61.5+10),toRadians(90))
+                .splineTo(new Vector2d(15.8,-51.5),toRadians(90))
                 .forward(9)
                 .splineTo(new Vector2d(11.8,-29.5), toRadians(135))
                 .forward(2.5)
@@ -132,7 +130,7 @@ public class RedRight extends LinearOpMode
 //                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
                 .forward(20)
                 .turn(toRadians(-90))
-                .forward(46)
+                .forward(45)
                 .turn(toRadians(90))
                 .build();
 
@@ -240,7 +238,7 @@ public class RedRight extends LinearOpMode
         sleep(1000);
         slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
-        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slides.hold();
         intake.drop();
         sleep(1250);
@@ -256,8 +254,6 @@ public class RedRight extends LinearOpMode
         }
         slides.lower();
         sleep(3000);
-
-
 
 
 

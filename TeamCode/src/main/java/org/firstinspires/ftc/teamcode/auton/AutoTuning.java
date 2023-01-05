@@ -23,8 +23,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Auto - RED LEFT side")
-public class RedLeft extends LinearOpMode
+@Autonomous(name = "Auto - For Testing Only!")
+public class AutoTuning extends LinearOpMode
 {
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
@@ -94,46 +94,47 @@ public class RedLeft extends LinearOpMode
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        drive.setPoseEstimate(new Pose2d(-38.8, -61.5, toRadians(90)));
+        drive.setPoseEstimate(new Pose2d(38.8, -61.5, toRadians(90)));
 
 
 
-        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(-38.8, -61.5, toRadians(90)))
-                .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
+        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
+                .splineTo(new Vector2d(15.8,-51.5),toRadians(90))
                 .forward(9)
-                .splineTo(new Vector2d(-12.8,-29.5), toRadians(45))
-                .forward(2)
+                .splineTo(new Vector2d(11.8,-29.5), toRadians(135))
+                .forward(2.5)
 
 //                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
                 .build();
 
-        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(new Pose2d(-14.6,-26.8, toRadians(45)))
-                .back(5)
-                .turn(toRadians(45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                .forward(20)
-                .build();
-
-        TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(new Pose2d(-14.6,-26.8, toRadians(45)))
-                .back(5)
-                .turn(toRadians(45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                .forward(20)
-//                                .strafeRight(20)
-//                .splineTo(new Vector2d(35.5,-10),toRadians(90))
-                .turn(toRadians(90))
-                .forward(25)
-                .turn(toRadians(-90))
-                .build();
-
-        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(new Pose2d(-14.6,-26.8, toRadians(45)))                                   .back(5)
-                .turn(toRadians(48))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                .forward(20)
-                .turn(toRadians(90))
-                .forward(49)
-                .turn(toRadians(-90))
-                .build();
+//        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(new Pose2d(14.6,-26.8, toRadians(135)))
+//                .back(5)
+//                .turn(toRadians(-45))
+////                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+//                .forward(20)
+//                .build();
+//
+//        TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(new Pose2d(14.6,-26.8, toRadians(135)))
+//                .back(5)
+//                .turn(toRadians(-45))
+////                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+//                .forward(20)
+////                                .strafeRight(20)
+////                .splineTo(new Vector2d(35.5,-10),toRadians(90))
+//                .turn(toRadians(-90))
+//                .forward(25)
+//                .turn(toRadians(90))
+//                .build();
+//
+//        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(new Pose2d(14.6,-26.8, toRadians(135)))
+//                .back(5)
+//                .turn(toRadians(-45))
+////                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+//                .forward(20)
+//                .turn(toRadians(-90))
+//                .forward(45)
+//                .turn(toRadians(90))
+//                .build();
 
 
 
@@ -235,26 +236,26 @@ public class RedLeft extends LinearOpMode
             // Park Right
             parking_location = parking_location.RIGHT;
         }
-        slides.raiseToTop();
         intake.stop();
         sleep(1000);
+        slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
-        slides.setLiftMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slides.hold();
         intake.drop();
         sleep(1250);
         intake.stop();
-
-        if(parking_location == PARKING_LOCATION.RIGHT){
-            drive.followTrajectorySequence(parkRight);
-        } else if (parking_location == PARKING_LOCATION.MIDDLE){
-            drive.followTrajectorySequence(parkMiddle);
-        }  else{
-            drive.followTrajectorySequence(parkLeft);
-
-        }
-        slides.lower();
-        sleep(1000);
+//
+//        if(parking_location == PARKING_LOCATION.RIGHT){
+//            drive.followTrajectorySequence(parkRight);
+//        } else if (parking_location == PARKING_LOCATION.MIDDLE){
+//            drive.followTrajectorySequence(parkMiddle);
+//        }  else{
+//            drive.followTrajectorySequence(parkLeft);
+//
+//        }
+//        slides.lower();
+//        sleep(3000);
 
 
 

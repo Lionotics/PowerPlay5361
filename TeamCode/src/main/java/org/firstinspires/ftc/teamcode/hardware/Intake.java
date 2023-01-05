@@ -20,7 +20,9 @@ public class Intake extends Mechanism{
         servo2.setPower(1);
     }
     public void stop(){
-        servo1.setPower(-0.1);
+        // FOR TESTING - If we only spin one, does that help our problems in teleop?
+        // TODO: Fix servo logic based on testing
+        servo1.setPower(0);
         servo2.setPower(0.1);
     }
     public void drop(){

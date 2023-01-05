@@ -2,11 +2,8 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; //AHUHIRI
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Button;
 import org.firstinspires.ftc.teamcode.hardware.Drivetrain;
@@ -15,18 +12,13 @@ import org.firstinspires.ftc.teamcode.hardware.Slides;
 
 @TeleOp(name = "TELEOP")
 
+public class Teleop extends LinearOpMode {
 
-
-
-
-public class TestingDriving extends LinearOpMode {
-
-    enum SLIDES_STATE {
+    private enum SLIDES_STATE {
         AUTO_MOVE,
         MANUAL_MOVE,
         HOLDING
     };
-
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,25 +28,22 @@ public class TestingDriving extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
 
-        // Declare our motors
-        // Make sure your ID's match your configuration
-//        PhotonCore.enable();
+        PhotonCore.enable();
 
         //Mechanism setup
         Drivetrain drive = new Drivetrain();
         drive.init(hardwareMap);
 
-        // mechanism
+        // Hardware mechanisms
         Slides slides = new Slides();
         slides.init(hardwareMap);
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
 
+        // Advanced button tracking
         Button gamepad1y = new Button(false);
         Button gamepad1a = new Button(false);
-
-
 
         waitForStart();
 
