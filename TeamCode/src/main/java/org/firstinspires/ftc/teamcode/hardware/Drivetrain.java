@@ -5,10 +5,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.util.VariableStorage;
+
 
 public class Drivetrain extends Mechanism{
     DcMotor motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight;
     BNO055IMU imu;
+    private double offset = 0;
 
     @Override
     public void init(HardwareMap hwMap) {
@@ -28,6 +31,8 @@ public class Drivetrain extends Mechanism{
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        offset = VariableStorage.angle;
+
         // Retrieve the IMU from the hardware map
         imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -42,9 +47,9 @@ public class Drivetrain extends Mechanism{
         double y = -left_stick_y; // Remember, this is reversed!
         double x = left_stick_x * 1.1; // Counteract imperfect strafing
         double rx = right_stick_x;
-
+        // TODO: Check, this may be reversed. ALso need to check for angle wrapping issues
         // Read inverse IMU heading, as the IMU heading is CW positive
-        double botHeading = -imu.getAngularOrientation().firstAngle;
+        double botHeading = -imu.getAngularOrientation().firstAngle + offset;
 
         double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
         double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);

@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.util.VariableStorage;
+
 // Class representing our vertical slides
 
 // This is an experiemntel version with PIDF control, we'll see how it works
@@ -40,6 +42,8 @@ public class Slides extends Mechanism{
     private DcMotorEx lift;
 
     private ElapsedTime timer;
+    private int offset = 0;
+
 
     @Override
     public void init(HardwareMap hwMap) {
@@ -47,9 +51,8 @@ public class Slides extends Mechanism{
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        offset = VariableStorage.slidesPos;
         this.timer = new ElapsedTime();
         timer.reset();
     }
@@ -63,7 +66,7 @@ public class Slides extends Mechanism{
     }
 
     public int getPosition(){
-        return lift.getCurrentPosition();
+        return lift.getCurrentPosition() + this.offset;
     }
 
     public void setMode(DcMotor.RunMode runMode)  {

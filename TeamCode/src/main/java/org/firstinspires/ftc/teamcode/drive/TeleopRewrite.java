@@ -22,6 +22,8 @@ public class TeleopRewrite extends LinearOpMode {
         MANUAL_DOWN,
         HOLDING
     };
+    private double loopTime = 0;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -114,14 +116,11 @@ public class TeleopRewrite extends LinearOpMode {
                 intake.stop();
             }
 
-
+            double loop = System.nanoTime();
+            telemetry.addData("hz ", 1000000000 / (loop - loopTime));
+            loopTime = loop;
+            telemetry.update();
 
         }
-
-
-
-
-
-
     }
 }
