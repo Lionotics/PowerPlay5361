@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 // Class representing our vertical slides
 
+// This is an experiemntel version with PIDF control, we'll see how it works
 
 @Config
 public class Slides extends Mechanism{

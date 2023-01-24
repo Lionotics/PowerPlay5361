@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
 import java.util.Objects;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * This routine is designed to calculate the maximum velocity your bot can achieve under load. It
  * will also calculate the effective kF value for your velocity PID.
@@ -44,7 +44,7 @@ public class MaxVelocityTuner extends LinearOpMode {
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         telemetry.addLine("Your bot will go at full speed for " + RUNTIME + " seconds.");
         telemetry.addLine("Please ensure you have enough space cleared.");
