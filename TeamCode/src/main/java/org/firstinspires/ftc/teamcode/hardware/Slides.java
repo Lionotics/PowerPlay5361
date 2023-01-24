@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
+import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,7 +17,16 @@ public class Slides extends Mechanism{
     // Constants
     public static double SLIDES_HOLDING_CURRENT = 0.1;
     public static int SLIDES_TOP_POS = 3200;
-    public static int SLIDES_BOTTOM_POS = 200;
+    public static int SLIDES_BOTTOM_POS = 0;
+
+    public static int targetPosition = 0;
+
+    // TODO: Tune these
+    public static double Kg = 0.1;
+    public static double Kp = 0;
+    public static double Ki = 0;
+    public static double Kd = 0;
+
 
     private DcMotor lift;
 
@@ -27,8 +38,6 @@ public class Slides extends Mechanism{
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        lift.setDirection(DcMotorSimple.Direction.REVERSE);
-
     }
 
     public void hold(){
@@ -51,7 +60,6 @@ public class Slides extends Mechanism{
         return lift.getMode();
     }
 
-
     public void moveUp() {
             lift.setPower(1);
     }
@@ -60,31 +68,28 @@ public class Slides extends Mechanism{
             lift.setPower(-1);
     }
 
-    public void raiseToTop(){
-        lift.setTargetPosition(SLIDES_TOP_POS);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lift.setPower(0.8);
-
-    }
-    public void lower(){
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setTargetPosition(0);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setPower(0.8);
-
-        while(Math.abs(lift.getCurrentPosition()) > 20){
-        }
-
-        lift.setPower(0);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
-    }
-
     public int getTargetPosition() {
-        return  lift.getTargetPosition();
+        return targetPosition;
     }
+
     public boolean isBusy(){return lift.isBusy();}
-    public  void setTargetPosition (int a) {lift.setTargetPosition(a);}
+
+    public void setTarget (int a) {targetPosition = a;}
+
+    public void raiseToTop(){
+        this.setTarget(SLIDES_TOP_POS);
+    }
+    public void lowerToBottom(){
+        this.setTarget(SLIDES_BOTTOM_POS);
+    }
+
+    public void moveTowardsGoal(){
+        BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
+        double power = controller.calculate(targetPosition, this.getPosition()) + Kg;
+        lift.setPower(power);
+    }
+
+
 
 
 

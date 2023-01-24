@@ -20,7 +20,7 @@ public class SlidesTroubleshooting extends LinearOpMode {
         slides.init(hardwareMap);
         slides.raiseToTop();
         sleep(3000);
-        slides.lower();
+        slides.lowerToBottom();
         sleep(3000);
 
     }

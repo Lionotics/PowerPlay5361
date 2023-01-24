@@ -17,8 +17,7 @@ import org.firstinspires.ftc.teamcode.hardware.Slides;
 public class TeleopRewrite extends LinearOpMode {
 
     private enum LIFT_STATE {
-        AUTO_MOVE_UP,
-        AUTO_MOVE_DOWN,
+        AUTO_MOVE,
         MANUAL_UP,
         MANUAL_DOWN,
         HOLDING
@@ -59,7 +58,7 @@ public class TeleopRewrite extends LinearOpMode {
 
                 case HOLDING:
                     // Manual moving
-
+                    slides.hold();
                     if((gamepad1.right_bumper) && Math.abs(slides.getPosition()) < slides.SLIDES_TOP_POS) {
                         slides.moveUp();
                         lift_state = LIFT_STATE.MANUAL_UP;
@@ -68,22 +67,18 @@ public class TeleopRewrite extends LinearOpMode {
                         lift_state = LIFT_STATE.MANUAL_DOWN;
                     }
 
-                    // Automatic moving
+                    // Transition to automatic moving
 
                     // Move to the top
                     if(gamepad1.a){
-                        slides.setTargetPosition(slides.SLIDES_TOP_POS);
-                        slides.setPower(1);
-                        slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        lift_state = LIFT_STATE.AUTO_MOVE_UP;
+                        slides.raiseToTop();
+                        lift_state = LIFT_STATE.AUTO_MOVE;
                     }
 
                     // Move to the bottom
                     if(gamepad1.b){
-                        slides.setTargetPosition(slides.SLIDES_BOTTOM_POS);
-                        slides.setPower(1);
-                        slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        lift_state = LIFT_STATE.AUTO_MOVE_DOWN;
+                        slides.lowerToBottom();
+                        lift_state = LIFT_STATE.AUTO_MOVE;
                     }
                     break;
 
@@ -100,17 +95,10 @@ public class TeleopRewrite extends LinearOpMode {
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
-                case AUTO_MOVE_UP:
-                    if(Math.abs(slides.getPosition() - slides.SLIDES_TOP_POS) < 10){
-                        slides.hold();
-                        slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                        lift_state = LIFT_STATE.HOLDING;
-                    }
-                    break;
-                case AUTO_MOVE_DOWN:
-                    if(Math.abs(slides.getPosition() - slides.SLIDES_BOTTOM_POS) < 10){
-                        slides.hold();
-                        slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                case AUTO_MOVE:
+                    slides.moveTowardsGoal();
+
+                    if(Math.abs(slides.getPosition() - slides.getTargetPosition()) < 10){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;

@@ -252,7 +252,7 @@ public class AutoRight extends LinearOpMode
             drive.followTrajectorySequence(parkLeft);
 
         }
-        slides.lower();
+        slides.lowerToBottom();
         sleep(3000);
 
 
