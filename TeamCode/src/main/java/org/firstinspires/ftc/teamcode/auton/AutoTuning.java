@@ -258,9 +258,6 @@ public class AutoTuning extends LinearOpMode
 //        sleep(3000);
 
 
-
-
-
     }
 
     void tagToTelemetry(AprilTagDetection detection)

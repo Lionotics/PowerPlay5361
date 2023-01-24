@@ -8,11 +8,12 @@
   - **What it includes:** Using Opencv, be able to detect three distinct printed targets on a cone
   - **Status:** Done! Shoutout to Daniel.
 
-- [ ] General drivetrain tuning
+- [x] General drivetrain tuning
   - **Skill level:** Hard, just because it's new
   - **What it includes:** Tuning roadrunner for auto, depending on timing either with dead wheels or motor encoders 
   - **Status:** Done with drive encoders for current robot configuration
-- [ ] Basic non-cycle auto
+  - **Notes:** Going to need redoing pending dead wheel odometry implementation
+- [x] Basic non-cycle auto
   - **Skill level:** Hard, just because it's new
   - **What it includes:** An autonomous opmode to place the preload and park in the correct location, should be done for both sides!
   - **Status:** Not started
@@ -32,15 +33,16 @@
   - **What it includes:** Setup of the drive motors and imu, and then reusing the driver oriented code from last year
   - **Requirements to get it done:** chassis needs to be built and wired.
   - **Status:** Done!
-- [ ] Basic configuration / control for all "manipulation" hardware
+- [x] Basic configuration / control for all "manipulation" hardware
   - **Skill level:**  Easy
   - **What it includes:** add basic manual controls for all the motors
   - **Requirements to get it done:** Hardware needs to be built and ready for testing
   - **Status:** Somewhat completed, waiting on hardware.
 - [ ] Automation + Driver assists (encoders, LEDs, etc.) for ^ 
   - **Skill level:** Easy to Medium
-  - **What it includes:** Adding and configuring sensors so that drivers can have an easier time and do less work
+  - **What it includes:** Adding and configuring sensors so that drivers can have an easier time and do less work.
   - **Status:** Not started
+  - **Notes:** I would like to do a custom pid for the slides as it should lead to better results. Needs time though so we'll see.  
 
 ----
 ## 13475:

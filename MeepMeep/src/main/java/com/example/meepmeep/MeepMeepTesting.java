@@ -18,87 +18,50 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(30,20,toRadians(60),toRadians(60),15)
+                .setConstraints(30,20,toRadians(180),toRadians(180),15)
                 .followTrajectorySequence(drive ->
-
-                        //  RIGHT
-                        drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
-                                .forward(35)
-                                .splineTo(new Vector2d(29,-5),toRadians(135))
-                                .waitSeconds(1.5)
-                                .back(13)
-                                .turn(toRadians(-90))
-//                                .turn(toRadians(-180))
-                                .splineTo(new Vector2d(60.5,-11.5),toRadians(0))
-//                                .forward(5)
-//                                .waitSeconds(2)
-//                                .back(10)
-//                                .splineTo(new Vector2d(29,-5),toRadians(-135))
-
-
-
-//                                .splineTo()
-//                                .splineTo(new Vector2d(38.8-22,-61.5+10),toRadians(90))
-//                                .forward(9)
-//                                .splineTo(new Vector2d(8.8+2,-30.5+2), toRadians(90+45))
-//                                .forward(0.5)
-//                                .waitSeconds(2)
-//                                .back(2)
-//                                .turn(toRadians(-45))
-////                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-//                                .forward(20)
 //
+//                        //  HIGH GOAL
+//                        drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
+//                                .forward(35)
+//                                .splineTo(new Vector2d(29,-5),toRadians(135))
+//                                .waitSeconds(1.5)
+//                                .back(13)
 //                                .turn(toRadians(-90))
-//                                .forward(45)
+//                                .splineTo(new Vector2d(60.5,-11.5),toRadians(0))
+//                                .waitSeconds(1.5)
+//                                .back(13)
 //                                .turn(toRadians(90))
+//                                .splineTo(new Vector2d(29,-5),toRadians(135))
+//                                .waitSeconds(1.5)
+//                                .build()
 
-
-                                // BLUE LEFT
-//                                drive.trajectorySequenceBuilder(new Pose2d(-38.8, -61.5, toRadians(90)))
-////                                        .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
-////                                        .forward(9)
-////                                        .splineTo(new Vector2d(-10.8,-30.5+2), toRadians(90+45))
-////                                        .forward(0.5)
-////                                        .waitSeconds(2)
-////                                        .back(2)
-////                                        .turn(toRadians(-45))
-////                                        .forward(20)
-////                                        .turn(toRadians(90))
-////                                        .forward(50)
-////                                        .turn(toRadians(-90))
-////                                        .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
-////                                        .forward(9)
-////                                        .splineTo(new Vector2d(-28.8,-28.5), toRadians(45))
-////                                        .forward(2.5)
-////                                        .back(5)
-////                                        .turn(toRadians(45))
-////                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-////                                        .forward(20)
-////                                .strafeRight(20)
-////                .splineTo(new Vector2d(35.5,-10),toRadians(90))
-////                                        .turn(toRadians(90))
-////                                        .forward(25)
-////                                        .turn(toRadians(-90))
-//
-//
-////                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
+                                //  Medium GOAL
+                                // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
+                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+                                        .forward(45)
+                                        .lineToLinearHeading(new Pose2d(44.8,-20,toRadians(-45)))
+                                        .waitSeconds(1.5)
+                                        .back(10)
+                                        .lineToLinearHeading(new Pose2d(60.5,-11.5,toRadians(0)))
+                                        .waitSeconds(1.5)
+                                        .lineToLinearHeading(new Pose2d(49,-20,toRadians(-135)))
+                                        .waitSeconds(1.5)
+                                        .lineToLinearHeading(new Pose2d(60.5,-11.5,toRadians(0)))
+                                        .waitSeconds(1.5)
+                                        .lineToLinearHeading(new Pose2d(49,-20,toRadians(-135)))
+                                        .waitSeconds(1.5)
+                                        .lineToLinearHeading(new Pose2d(60.5,-11.5,toRadians(0)))
+                                        .waitSeconds(1.5)
                                         .build()
 
-//
-//                                        .turn(toRadians(-90))
-//                                        .forward(45)
-//                                        .turn(toRadians(90))
-
-
-
-//                                .build();
                 );
 
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
+                .addEntity(myBot.setDimensions(14,17))
                 .start();
     }
 }

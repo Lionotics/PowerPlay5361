@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 // Class representing our vertical slides
 
 
-
 @Config
 public class Slides extends Mechanism{
 
