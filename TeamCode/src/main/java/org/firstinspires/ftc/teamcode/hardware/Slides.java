@@ -22,28 +22,28 @@ import org.firstinspires.ftc.teamcode.util.VariableStorage;
 public class Slides extends Mechanism{
 
     // Constants
-    public static double SLIDES_HOLDING_CURRENT = 0.1;
-    public static int SLIDES_TOP_POS = 3200;
+    public static double SLIDES_HOLDING_CURRENT = 0.07;
+    public static int SLIDES_TOP_POS = -3200;
     public static int SLIDES_BOTTOM_POS = 0;
 
     public static int targetPosition = 0;
 
     // TODO: Tune these
-    public static double Kg = 0.1;
-    public static double Kp = 0;
+    public static double Kg = 0.07;
+    public static double Kp = 0.02;
     public static double Ki = 0;
-    public static double Kd = 0;
+    public static double Kd = 0.05;
     // These are bogus values!
     public static double maxVel = 10;
     public static double maxAccel = 10;
-    public static double maxJerk = 0;
 
-    private MotionProfile profile;
     private DcMotorEx lift;
 
     private ElapsedTime timer;
     private int offset = 0;
-
+    private double currentPower = 0;
+    private MotionProfile profile;
+    private BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
 
     @Override
     public void init(HardwareMap hwMap) {
@@ -57,12 +57,24 @@ public class Slides extends Mechanism{
         timer.reset();
     }
 
-    public void hold(){
-        lift.setPower(SLIDES_HOLDING_CURRENT);
+    public void setPower(double power){
+        currentPower = power;
+        lift.setPower(power);
     }
 
-    public void setPower(double power){
-        lift.setPower(power);
+
+    public void hold(){
+        this.setPower(SLIDES_HOLDING_CURRENT);
+    }
+
+    public void moveUp() {
+        currentPower = 1;
+        this.setPower(1);
+    }
+
+    public void moveDown() {
+        currentPower = -1;
+        this.setPower(-1);
     }
 
     public int getPosition(){
@@ -77,14 +89,6 @@ public class Slides extends Mechanism{
         return lift.getMode();
     }
 
-    public void moveUp() {
-            lift.setPower(1);
-    }
-
-    public void moveDown() {
-            lift.setPower(-1);
-    }
-
     public int getTargetPosition() {
         return targetPosition;
     }
@@ -92,6 +96,10 @@ public class Slides extends Mechanism{
     public boolean isBusy(){return lift.isBusy();}
 
     public void setTarget (int a) {targetPosition = a;}
+    public double getCurrentPower(){
+        return currentPower;
+    }
+
 
     public void raiseToTop(){
         this.setTarget(SLIDES_TOP_POS);
@@ -101,11 +109,9 @@ public class Slides extends Mechanism{
     }
 
     public void moveTowardsGoal(){
-
-
-        BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
-        double power = controller.calculate(targetPosition, this.getPosition()) + Kg;
-        lift.setPower(power);
+        double power = -(controller.calculate(targetPosition, this.getPosition()) + Kg);
+        currentPower = power;
+        this.setPower(power);
     }
     // Warning: Very untested and sketchy code below!
     public void setupMP(){
@@ -114,9 +120,8 @@ public class Slides extends Mechanism{
     }
     public void moveTowardsGoalMP(){
         MotionState state = this.profile.get(timer.seconds());
-        BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
         double power = controller.calculate(state.getX(), this.getPosition()) + Kg;
-        lift.setPower(power);
+        this.setPower(-power);
     }
 
 

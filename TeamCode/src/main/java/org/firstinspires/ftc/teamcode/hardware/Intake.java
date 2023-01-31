@@ -1,36 +1,26 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+@Config
 
 public class Intake extends Mechanism{
 
-    private CRServo servo1, servo2;
-
+    private Servo claw;
+    public static double OPEN_POSITION = 0;
+    public static double CLOSE_POSITION = 0.5;
     @Override
     public void init(HardwareMap hwMap) {
-        servo1 = hwMap.crservo.get("servo1");
-        servo2 = hwMap.crservo.get("servo2");
+        claw = hwMap.servo.get("claw");
 
     }
 
-    public void intake(){
-        servo1.setPower(-1);
-        servo2.setPower(1);
+    public void close(){
+            claw.setPosition(CLOSE_POSITION);
     }
-    public void stop(){
-        // FOR TESTING - If we only spin one, does that help our problems in teleop?
-        // TODO: Fix servo logic based on testing
-        servo1.setPower(0);
-        servo2.setPower(0.1);
-    }
-    public void drop(){
-        servo1.setPower(1);
-        servo2.setPower(-1);
-    }
-    public void stopForReal(){
 
-        servo1.setPower(0);
-        servo2.setPower(0);
-    }}
+    public void open(){
+        claw.setPosition(OPEN_POSITION);
+    }
+}

@@ -11,19 +11,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
 import org.firstinspires.ftc.teamcode.hardware.Vision;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.VariableStorage;
-import org.openftc.apriltag.AprilTagDetection;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-
-import java.util.ArrayList;
 
 @Config
 @Autonomous(name = "Auto - Right side")
@@ -45,7 +38,6 @@ public class AutoRight extends LinearOpMode
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
-        intake.stopForReal();
 
         Slides slides = new Slides();
         slides.init(hardwareMap);
@@ -132,15 +124,13 @@ public class AutoRight extends LinearOpMode
             parking_location = parking_location.RIGHT;
         }
 
-        intake.stop();
         sleep(500);
         slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
         slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slides.hold();
-        intake.drop();
+        intake.open();
         sleep(1250);
-        intake.stop();
 
         if(parking_location == PARKING_LOCATION.RIGHT){
             drive.followTrajectorySequence(parkRight);

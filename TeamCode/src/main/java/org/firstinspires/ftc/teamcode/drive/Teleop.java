@@ -106,13 +106,10 @@ public class Teleop extends LinearOpMode {
             }
 
             if(gamepad1.right_trigger > 0.1 || gamepad2.right_trigger > 0.1){
-                intake.intake();
+                intake.close();
             } else if (gamepad1.left_trigger > 0.1 || gamepad2.left_trigger > 0.1){
-              intake.drop();
-            } else{
-                intake.stop();
+              intake.open();
             }
-
             if(gamepad1.x){
                 slides.moveDown();
             }

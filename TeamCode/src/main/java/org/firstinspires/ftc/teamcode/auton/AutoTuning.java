@@ -89,7 +89,6 @@ public class AutoTuning extends LinearOpMode
         Slides slides = new Slides();
         slides.init(hardwareMap);
 
-        intake.stopForReal();
 
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
@@ -236,15 +235,13 @@ public class AutoTuning extends LinearOpMode
             // Park Right
             parking_location = parking_location.RIGHT;
         }
-        intake.stop();
         sleep(1000);
         slides.raiseToTop();
         drive.followTrajectorySequence(stepOne);
         slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slides.hold();
-        intake.drop();
+        intake.open();
         sleep(1250);
-        intake.stop();
 //
 //        if(parking_location == PARKING_LOCATION.RIGHT){
 //            drive.followTrajectorySequence(parkRight);
