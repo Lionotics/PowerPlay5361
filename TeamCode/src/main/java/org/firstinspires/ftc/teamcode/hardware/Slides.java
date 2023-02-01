@@ -25,17 +25,19 @@ public class Slides extends Mechanism{
     public static double SLIDES_HOLDING_CURRENT = 0.07;
     public static int SLIDES_TOP_POS = -3200;
     public static int SLIDES_BOTTOM_POS = 0;
+    public static int SLIDES_LOW_POS = -1300;
+    public static int SLIDES_MIDDLE_POS = -2030;
 
     public static int targetPosition = 0;
 
     // TODO: Tune these
     public static double Kg = 0.07;
-    public static double Kp = 0.02;
+    public static double Kp = 0.019;
     public static double Ki = 0;
     public static double Kd = 0.05;
     // These are bogus values!
-    public static double maxVel = 10;
-    public static double maxAccel = 10;
+    public static double maxVel = 3100;
+    public static double maxAccel = 4000;
 
     private DcMotorEx lift;
 
@@ -43,7 +45,7 @@ public class Slides extends Mechanism{
     private int offset = 0;
     private double currentPower = 0;
     private MotionProfile profile;
-    private BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
+
 
     @Override
     public void init(HardwareMap hwMap) {
@@ -107,8 +109,12 @@ public class Slides extends Mechanism{
     public void lowerToBottom(){
         this.setTarget(SLIDES_BOTTOM_POS);
     }
+    public void raiseToLow(){this.setTarget(SLIDES_LOW_POS);}
+    public void raiseToMiddle(){this.setTarget(SLIDES_MIDDLE_POS);}
+    public double getVelocity(){return lift.getVelocity();}
 
     public void moveTowardsGoal(){
+        BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
         double power = -(controller.calculate(targetPosition, this.getPosition()) + Kg);
         currentPower = power;
         this.setPower(power);
@@ -119,9 +125,10 @@ public class Slides extends Mechanism{
         this.profile = MotionProfileGenerator.generateSimpleMotionProfile(new MotionState(this.getPosition(),0),new MotionState(targetPosition,0), maxVel,maxAccel);
     }
     public void moveTowardsGoalMP(){
+        BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
         MotionState state = this.profile.get(timer.seconds());
-        double power = controller.calculate(state.getX(), this.getPosition()) + Kg;
-        this.setPower(-power);
+        double power = -controller.calculate(state.getX(), this.getPosition()) + Kg;
+        this.setPower(power);
     }
 
 

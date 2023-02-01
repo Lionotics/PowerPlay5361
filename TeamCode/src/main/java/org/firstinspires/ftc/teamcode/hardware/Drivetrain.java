@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.util.VariableStorage;
 public class Drivetrain extends Mechanism{
     DcMotor motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight;
     IMU imu;
+    public static double SPEED_MULTIPLIER = 0.75;
 
     private double offset = 0;
 
@@ -45,6 +46,9 @@ public class Drivetrain extends Mechanism{
         imu.initialize(parameters);
 
     }
+    public double getHeading(){
+        return  -Math.toDegrees(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+    }
 
     public void drive(double left_stick_y,double left_stick_x, double right_stick_x){
         double y = -left_stick_y; // Remember, this is reversed!
@@ -68,10 +72,10 @@ public class Drivetrain extends Mechanism{
         double frontRightPower = (rotY - rotX - rx) / denominator;
         double backRightPower = (rotY + rotX - rx) / denominator;
 
-        motorFrontLeft.setPower(frontLeftPower * 0.75);
-        motorBackLeft.setPower(backLeftPower * 0.75);
-        motorFrontRight.setPower(frontRightPower * 0.75);
-        motorBackRight.setPower(backRightPower * 0.75);
+        motorFrontLeft.setPower(frontLeftPower * SPEED_MULTIPLIER);
+        motorBackLeft.setPower(backLeftPower * SPEED_MULTIPLIER);
+        motorFrontRight.setPower(frontRightPower * SPEED_MULTIPLIER);
+        motorBackRight.setPower(backRightPower * SPEED_MULTIPLIER);
 
 //        double y = -left_stick_y; // Remember, this is reversed!
 //        double x = left_stick_x * 1.1; // Counteract imperfect strafing

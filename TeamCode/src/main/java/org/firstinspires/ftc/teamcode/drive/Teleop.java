@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; //AHUHIRI
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.Drivetrain;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Disabled
 @TeleOp(name = "TELEOP")
 
 public class Teleop extends LinearOpMode {

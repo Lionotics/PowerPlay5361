@@ -23,6 +23,8 @@ public class TeleopRewrite extends LinearOpMode {
     };
     private double loopTime = 0;
 
+    private double maxVel = 0;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -47,6 +49,8 @@ public class TeleopRewrite extends LinearOpMode {
         // Wait for start
         waitForStart();
         if (isStopRequested()) return;
+
+
 
         // Loop ran durring teleop
         while (opModeIsActive()) {
@@ -74,6 +78,12 @@ public class TeleopRewrite extends LinearOpMode {
                     } else if(gamepad1.left_bumper || gamepad2.left_bumper){
                         // or move to the bottom automatically
                         slides.lowerToBottom();
+                        lift_state = LIFT_STATE.AUTO_MOVE;
+                    } else if (gamepad1.dpad_left || gamepad2.dpad_left){
+                        slides.raiseToLow();
+                        lift_state = LIFT_STATE.AUTO_MOVE;
+                    } else if (gamepad1.dpad_right|| gamepad2.dpad_right){
+                        slides.raiseToMiddle();
                         lift_state = LIFT_STATE.AUTO_MOVE;
                     }
                     break;
@@ -106,16 +116,22 @@ public class TeleopRewrite extends LinearOpMode {
 
             // Driver intake controls
             if(gamepad1.right_trigger > 0.1 || gamepad2.right_trigger > 0.1){
-                intake.close();
-            } else if (gamepad1.left_trigger > 0.1 || gamepad2.left_trigger > 0.1){
                 intake.open();
+            } else if (gamepad1.left_trigger > 0.1 || gamepad2.left_trigger > 0.1){
+                intake.close();
             }
 
+            if (slides.getVelocity() > maxVel){
+                maxVel = slides.getVelocity();
+            }
 
             telemetry.addData("state", lift_state);
             telemetry.addData("Slides position",slides.getPosition());
             telemetry.addData("Target",slides.getTargetPosition());
             telemetry.addData("Slides power", slides.getCurrentPower());
+            telemetry.addData("heading",drive.getHeading());
+            telemetry.addData("MaxVel",maxVel);
+
             double loop = System.nanoTime();
             telemetry.addData("hz ", 1000000000 / (loop - loopTime));
             loopTime = loop;

@@ -97,8 +97,8 @@ public class SampleMecanumDrive extends MecanumDrive {
         // TODO: Adjust the orientations here to match your robot. See the FTC SDK documentation for
         // details
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
 
@@ -131,7 +131,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear .setDirection(DcMotorSimple.Direction.REVERSE);
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
-        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
+//        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }
