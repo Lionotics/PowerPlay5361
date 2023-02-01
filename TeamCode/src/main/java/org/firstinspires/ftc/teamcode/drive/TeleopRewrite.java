@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.hardware.Drivetrain;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
 
-@TeleOp(name = "New Teleop - Not ready yet!")
+@TeleOp(name = "New Teleop")
 
 public class TeleopRewrite extends LinearOpMode {
 
@@ -61,17 +61,17 @@ public class TeleopRewrite extends LinearOpMode {
                 case HOLDING:
                     // Manual moving
                     slides.hold();
-                    if(gamepad1.right_bumper) {
+                    if(gamepad2.y) {
                         lift_state = LIFT_STATE.MANUAL_UP;
-                    } else if (gamepad1.left_bumper){
+                    } else if (gamepad2.x){
                         lift_state = LIFT_STATE.MANUAL_DOWN;
-                    } else if(gamepad1.a){
+                    } else if(gamepad1.right_bumper || gamepad2.right_bumper){
                         // Transition to automatic moving
                         // Move to the top
                         // RaiseToTop sets the target position, and then by transitioning the state the PID controller will run.
                         slides.raiseToTop();
                         lift_state = LIFT_STATE.AUTO_MOVE;
-                    } else if(gamepad1.b){
+                    } else if(gamepad1.left_bumper || gamepad2.left_bumper){
                         // or move to the bottom automatically
                         slides.lowerToBottom();
                         lift_state = LIFT_STATE.AUTO_MOVE;
@@ -82,14 +82,14 @@ public class TeleopRewrite extends LinearOpMode {
 
                     slides.moveUp();
 
-                    if(!gamepad1.right_bumper || slides.getPosition() > slides.SLIDES_TOP_POS){
+                    if((!gamepad1.y && !gamepad2.y) || slides.getPosition() > slides.SLIDES_TOP_POS){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
 
                 case MANUAL_DOWN:
                     slides.moveDown();
-                    if(!gamepad1.right_bumper || slides.getPosition() < slides.SLIDES_BOTTOM_POS){
+                    if((!gamepad2.x && !gamepad1.x) || slides.getPosition() < slides.SLIDES_BOTTOM_POS){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;

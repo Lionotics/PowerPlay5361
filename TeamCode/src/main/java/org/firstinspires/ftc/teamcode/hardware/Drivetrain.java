@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.util.VariableStorage;
 
 
 public class Drivetrain extends Mechanism{
     DcMotor motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight;
-    BNO055IMU imu;
+    IMU imu;
+
     private double offset = 0;
 
     @Override
@@ -34,11 +38,10 @@ public class Drivetrain extends Mechanism{
         offset = VariableStorage.angle;
 
         // Retrieve the IMU from the hardware map
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        // Technically this is the default, however specifying it is clearer
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        // Without this, data retrieving from the IMU throws an exception
+        imu = hwMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
     }
@@ -49,7 +52,9 @@ public class Drivetrain extends Mechanism{
         double rx = right_stick_x;
         // TODO: Check, this may be reversed. ALso need to check for angle wrapping issues
         // Read inverse IMU heading, as the IMU heading is CW positive
-        double botHeading = -imu.getAngularOrientation().firstAngle + offset;
+//        double botHeading = -imu.getAngularOrientation().thirdAngle + offset;
+        double botHeading =  -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
 
         double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
         double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);

@@ -9,7 +9,7 @@ public class Intake extends Mechanism{
 
     private Servo claw;
     public static double OPEN_POSITION = 0;
-    public static double CLOSE_POSITION = 0.5;
+    public static double CLOSE_POSITION = 0.2;
     @Override
     public void init(HardwareMap hwMap) {
         claw = hwMap.servo.get("claw");
