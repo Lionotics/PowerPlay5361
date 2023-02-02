@@ -53,7 +53,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  */
 @Config
 @Autonomous(group = "drive")
-
+@Disabled
 public class DriveVelocityPIDTuner extends LinearOpMode {
     public static double DISTANCE = 72; // in
 

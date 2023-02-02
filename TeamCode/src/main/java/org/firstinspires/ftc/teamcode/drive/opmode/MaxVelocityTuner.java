@@ -26,7 +26,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 @Config
 @Autonomous(group = "drive")
-
+@Disabled
 
 public class MaxVelocityTuner extends LinearOpMode {
     public static double RUNTIME = 2.0;

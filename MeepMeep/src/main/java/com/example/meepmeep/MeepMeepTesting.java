@@ -14,11 +14,11 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(600);
+        MeepMeep meepMeep = new MeepMeep(800);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(30,30,toRadians(180),toRadians(180),15)
+                .setConstraints(50,30,toRadians(180),toRadians(180),15)
                 .followTrajectorySequence(drive ->
 //
 //                        //  HIGH GOAL
@@ -39,16 +39,39 @@ public class MeepMeepTesting {
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
                                 drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
-                                        .forward(52)
-                                        .turn(toRadians(45))
-                                        .forward(6)
-                                        .back(9)
-                                        .turn(toRadians(-135))
-                                        .forward(25)
-                                        .forward(5)
-                                        .back(25)
-                                        .turn(toRadians(135))
-                                        .forward(7)
+                                        .forward(40)
+                                        .lineToLinearHeading(new Pose2d(36.8, -6.5, toRadians(135)))
+//                                        .waitSeconds(1)
+//                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
+//                                        .forward(4.5)
+//                                        .waitSeconds(2)
+//                                        .back(4.5)
+//                                        .lineToLinearHeading(new Pose2d(36.8, -6.5, toRadians(135)))
+//                                        .waitSeconds(1)
+//                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
+//                                        .forward(4.5)
+//                                        .waitSeconds(2)
+//                                        .back(4.5)
+//                                        .lineToLinearHeading(new Pose2d(36.8, -6.5, toRadians(135)))
+//                                        .waitSeconds(1)
+//                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
+//                                        .forward(4.5)
+//                                        .waitSeconds(2)
+//                                        .back(4.5)
+
+//                                        .forward(52)
+//                                        .turn(toRadians(45))
+//                                        .forward(6)
+//                                        .waitSeconds(1)
+//                                        .back(9)
+//                                        .turn(toRadians(-135))
+//                                        .forward(20)
+//                                        .waitSeconds(2)
+//                                        .forward(5)
+//                                        .waitSeconds(1)
+//                                        .back(25)
+//                                        .turn(toRadians(135))
+//                                        .forward(7)
 
                                         .build()
 
@@ -58,7 +81,7 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot.setDimensions(14,17))
+                .addEntity(myBot.setDimensions(15,17))
                 .start();
     }
 }

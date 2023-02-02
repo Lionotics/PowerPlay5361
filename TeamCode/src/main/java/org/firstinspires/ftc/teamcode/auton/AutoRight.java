@@ -135,10 +135,10 @@ public class AutoRight extends LinearOpMode
 
 
 
-//        // Save state for teleop
-//        VariableStorage.currentPose = drive.getPoseEstimate();
-//        VariableStorage.angle = drive.getRawExternalHeading();
-//        VariableStorage.slidesPos = slides.getPosition();
+        // Save state for teleop
+        VariableStorage.currentPose = drive.getPoseEstimate();
+        VariableStorage.angle = drive.getRawExternalHeading();
+        VariableStorage.slidesPos = slides.getPosition();
 
     }
 

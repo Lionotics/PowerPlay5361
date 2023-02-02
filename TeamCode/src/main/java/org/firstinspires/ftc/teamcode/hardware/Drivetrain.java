@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.util.VariableStorage;
 public class Drivetrain extends Mechanism{
     DcMotor motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight;
     IMU imu;
-    public static double SPEED_MULTIPLIER = 0.75;
+    public static double SPEED_MULTIPLIER = 0.9;
 
     private double offset = 0;
 
@@ -56,7 +56,6 @@ public class Drivetrain extends Mechanism{
         double rx = right_stick_x;
         // TODO: Check, this may be reversed. ALso need to check for angle wrapping issues
         // Read inverse IMU heading, as the IMU heading is CW positive
-//        double botHeading = -imu.getAngularOrientation().thirdAngle + offset;
         double botHeading =  -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
 
