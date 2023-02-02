@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.util.VariableStorage;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -255,10 +254,7 @@ public class AutoLeft extends LinearOpMode
         sleep(1000);
 
 
-        // Save state for teleop
-        VariableStorage.currentPose = drive.getPoseEstimate();
-        VariableStorage.angle = drive.getRawExternalHeading();
-        VariableStorage.slidesPos = slides.getPosition();
+
 
 
     }
