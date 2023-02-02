@@ -51,46 +51,28 @@ public class AutoRight extends LinearOpMode
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
-                .splineTo(new Vector2d(15.8,-51.5),toRadians(90))
-                .forward(9)
-                .splineTo(new Vector2d(11.8,-29.5), toRadians(135))
-                .forward(2.5)
-
-//                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
+                .forward(52)
+                .turn(toRadians(45))
+                .forward(6)
                 .build();
 
-        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(new Pose2d(14.6,-26.8, toRadians(135)))
-                .back(5)
-                .turn(toRadians(-45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+        TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(new Pose2d(36.8, -6.5, toRadians(135)))
+                // 33.3
+                .back(7)
+                .turn(toRadians(-135))
                 .forward(20)
                 .build();
-
-        TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(new Pose2d(14.6,-26.8, toRadians(135)))
-                .back(5)
-                .turn(toRadians(-45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                .forward(20)
-//                                .strafeRight(20)
-//                .splineTo(new Vector2d(35.5,-10),toRadians(90))
-                .turn(toRadians(-90))
-                .forward(25)
-                .turn(toRadians(90))
+        TrajectorySequence stepThree = drive.trajectorySequenceBuilder(new Pose2d(60.3,-10,toRadians(0)))
+                .forward(4.5)
                 .build();
-
-        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(new Pose2d(14.6,-26.8, toRadians(135)))
-                .back(5)
-                .turn(toRadians(-45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                .forward(20)
-                .turn(toRadians(-90))
-                .forward(45)
-                .turn(toRadians(90))
+        TrajectorySequence stepFour = drive.trajectorySequenceBuilder(new Pose2d(64.8,-10,toRadians(0)))
+                .back(25)
+                .turn(toRadians(135))
+                .forward(7)
                 .build();
 
 
-
-
+        intake.open();
 
 
         /*
@@ -123,30 +105,40 @@ public class AutoRight extends LinearOpMode
             // Park Right
             parking_location = parking_location.RIGHT;
         }
-
+        slides.raiseToTop();
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
+        }
+        slides.hold();
+        drive.followTrajectorySequence(stepOne);
+        intake.close();
+        sleep(1000);
+        drive.followTrajectorySequence(stepTwo);
+        slides.setTarget(-420);
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
+        }
+        slides.hold();
+        drive.followTrajectorySequence(stepThree);
+        intake.open();
         sleep(500);
         slides.raiseToTop();
-        drive.followTrajectorySequence(stepOne);
-        slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slides.hold();
-        intake.open();
-        sleep(1250);
-
-        if(parking_location == PARKING_LOCATION.RIGHT){
-            drive.followTrajectorySequence(parkRight);
-        } else if (parking_location == PARKING_LOCATION.MIDDLE){
-            drive.followTrajectorySequence(parkMiddle);
-        }  else{
-            drive.followTrajectorySequence(parkLeft);
-
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
         }
-        slides.lowerToBottom();
-        sleep(3000);
+        slides.hold();
+        drive.followTrajectorySequence(stepFour);
+        intake.close();
+        sleep(1000);
 
-        // Save state for teleop
-        VariableStorage.currentPose = drive.getPoseEstimate();
-        VariableStorage.angle = drive.getRawExternalHeading();
-        VariableStorage.slidesPos = slides.getPosition();
+
+
+
+
+//        // Save state for teleop
+//        VariableStorage.currentPose = drive.getPoseEstimate();
+//        VariableStorage.angle = drive.getRawExternalHeading();
+//        VariableStorage.slidesPos = slides.getPosition();
 
     }
 

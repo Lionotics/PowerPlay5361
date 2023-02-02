@@ -32,12 +32,13 @@ public class Slides extends Mechanism{
 
     // TODO: Tune these
     public static double Kg = 0.07;
-    public static double Kp = 0.019;
+    public static double Kp = 0.012;
     public static double Ki = 0;
-    public static double Kd = 0.05;
+    public static double Kd = 0.003;
     // These are bogus values!
     public static double maxVel = 3100;
     public static double maxAccel = 4000;
+    public static double mpTarget = 0;
 
     private DcMotorEx lift;
 
@@ -52,8 +53,10 @@ public class Slides extends Mechanism{
         lift = (DcMotorEx) hwMap.dcMotor.get("arm");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         offset = VariableStorage.slidesPos;
         this.timer = new ElapsedTime();
         timer.reset();
@@ -80,7 +83,7 @@ public class Slides extends Mechanism{
     }
 
     public int getPosition(){
-        return lift.getCurrentPosition() + this.offset;
+        return lift.getCurrentPosition();
     }
 
     public void setMode(DcMotor.RunMode runMode)  {

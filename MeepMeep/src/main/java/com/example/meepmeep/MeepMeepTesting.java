@@ -18,7 +18,7 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(30,20,toRadians(180),toRadians(180),15)
+                .setConstraints(30,30,toRadians(180),toRadians(180),15)
                 .followTrajectorySequence(drive ->
 //
 //                        //  HIGH GOAL
@@ -39,20 +39,17 @@ public class MeepMeepTesting {
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
                                 drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
-                                        .forward(45)
-                                        .lineToLinearHeading(new Pose2d(44.8,-20,toRadians(-45)))
-                                        .waitSeconds(1.5)
-                                        .back(10)
-                                        .lineToLinearHeading(new Pose2d(60.5,-11.5,toRadians(0)))
-                                        .waitSeconds(1.5)
-                                        .lineToLinearHeading(new Pose2d(49,-20,toRadians(-135)))
-                                        .waitSeconds(1.5)
-                                        .lineToLinearHeading(new Pose2d(60.5,-11.5,toRadians(0)))
-                                        .waitSeconds(1.5)
-                                        .lineToLinearHeading(new Pose2d(49,-20,toRadians(-135)))
-                                        .waitSeconds(1.5)
-                                        .lineToLinearHeading(new Pose2d(60.5,-11.5,toRadians(0)))
-                                        .waitSeconds(1.5)
+                                        .forward(52)
+                                        .turn(toRadians(45))
+                                        .forward(6)
+                                        .back(9)
+                                        .turn(toRadians(-135))
+                                        .forward(25)
+                                        .forward(5)
+                                        .back(25)
+                                        .turn(toRadians(135))
+                                        .forward(7)
+
                                         .build()
 
                 );

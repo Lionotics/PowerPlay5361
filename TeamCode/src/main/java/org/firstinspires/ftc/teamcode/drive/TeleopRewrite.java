@@ -78,9 +78,11 @@ public class TeleopRewrite extends LinearOpMode {
                     } else if(gamepad1.left_bumper || gamepad2.left_bumper){
                         // or move to the bottom automatically
                         slides.lowerToBottom();
+
                         lift_state = LIFT_STATE.AUTO_MOVE;
                     } else if (gamepad1.dpad_left || gamepad2.dpad_left){
                         slides.raiseToLow();
+
                         lift_state = LIFT_STATE.AUTO_MOVE;
                     } else if (gamepad1.dpad_right|| gamepad2.dpad_right){
                         slides.raiseToMiddle();
@@ -106,7 +108,7 @@ public class TeleopRewrite extends LinearOpMode {
                 case AUTO_MOVE:
                     slides.moveTowardsGoal();
 
-                    if(Math.abs(slides.getPosition() - slides.getTargetPosition()) < 10){
+                    if(Math.abs(slides.getPosition() - slides.getTargetPosition()) < 15){
                         // TODO: Tune the sensitivity of that
                         lift_state = LIFT_STATE.HOLDING;
                     }
