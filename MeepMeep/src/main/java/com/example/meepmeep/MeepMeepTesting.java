@@ -39,8 +39,14 @@ public class MeepMeepTesting {
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
                                 drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
-                                        .forward(40)
-                                        .lineToLinearHeading(new Pose2d(36.8, -6.5, toRadians(135)))
+                                        .forward(52)
+                                        .turn(toRadians(45))
+                                        .forward(5.5)
+                                        // LEFT
+                                        .back(5.5)
+                                        .turn(toRadians(45))
+                                        .forward(25)
+
 //                                        .waitSeconds(1)
 //                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
 //                                        .forward(4.5)

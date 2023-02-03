@@ -98,7 +98,13 @@ public class AutoRight extends LinearOpMode
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
                 .forward(52)
                 .turn(toRadians(45))
-                .forward(6)
+                .forward(5.5)
+                .build();
+        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(new Pose2d(36.8, -6.5, toRadians(135)))
+                .back(6.5)
+                .turn(toRadians(45))
+                .forward(25)
+                .turn(toRadians(-90))
                 .build();
 
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(new Pose2d(36.8, -6.5, toRadians(135)))
@@ -108,12 +114,12 @@ public class AutoRight extends LinearOpMode
                 .forward(20)
                 .build();
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(new Pose2d(60.3,-10,toRadians(0)))
-                .forward(4.5)
+                .forward(4)
                 .build();
         TrajectorySequence stepFour = drive.trajectorySequenceBuilder(new Pose2d(64.8,-10,toRadians(0)))
-                .back(25)
+                .back(24)
                 .turn(toRadians(135))
-                .forward(7)
+                .forward(6.5)
                 .build();
 
         /*
@@ -216,30 +222,40 @@ public class AutoRight extends LinearOpMode
         }
 
         slides.raiseToTop();
-        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 30){
             slides.moveTowardsGoal();
+            telemetry.addData("pos",slides.getPosition());
+            telemetry.addData("target",slides.getTargetPosition());
+            telemetry.update();
         }
         slides.hold();
         drive.followTrajectorySequence(stepOne);
         intake.close();
         sleep(1000);
-        drive.followTrajectorySequence(stepTwo);
-        slides.setTarget(-420);
+        drive.followTrajectorySequence(parkLeft);
+        slides.lowerToBottom();
         while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
             slides.moveTowardsGoal();
         }
-        slides.hold();
-        drive.followTrajectorySequence(stepThree);
-        intake.open();
-        sleep(500);
-        slides.raiseToTop();
-        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
-            slides.moveTowardsGoal();
-        }
-        slides.hold();
-        drive.followTrajectorySequence(stepFour);
-        intake.close();
-        sleep(1000);
+
+
+//        drive.followTrajectorySequence(stepTwo);
+//        slides.setTarget(-580);
+//        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+//            slides.moveTowardsGoal();
+//        }
+//        slides.hold();
+//        drive.followTrajectorySequence(stepThree);
+//        intake.open();
+//        sleep(500);
+//        slides.raiseToTop();
+//        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+//            slides.moveTowardsGoal();
+//        }
+//        slides.hold();
+//        drive.followTrajectorySequence(stepFour);
+//        intake.close();
+//        sleep(1000);
 
         // Save state for teleop
         VariableStorage.currentPose = drive.getPoseEstimate();

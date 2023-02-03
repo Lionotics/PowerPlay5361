@@ -7,6 +7,7 @@ import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -27,13 +28,22 @@ public class FullManualTeleop extends LinearOpMode {
         //Mechanism setup
         // Note: This uses the RoadRunner sampleMechanumDrive for drivetrain rather than the drivetrain class.
         // Plan accordingly. This is done for use of the localizer for auto tuning.
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+//        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         // Hardware mechanisms
         Slides slides = new Slides();
         Intake intake = new Intake();
         slides.init(hardwareMap);
         intake.init(hardwareMap);
+        DcMotorEx fr,fl,br,bl;
+        fl = hardwareMap.get(DcMotorEx.class, "leftFront");
+        bl = hardwareMap.get(DcMotorEx.class, "leftBack");
+        br = hardwareMap.get(DcMotorEx.class, "rightBack");
+        fr = hardwareMap.get(DcMotorEx.class, "rightFront");
+        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         telemetry.addLine("Warning! This Opmode has no hardware protections! Be careful!");
         telemetry.addLine("BE CAREFUL YOU NERD");
@@ -44,15 +54,14 @@ public class FullManualTeleop extends LinearOpMode {
         // Loop ran durring teleop
         while (opModeIsActive()) {
             // Driving
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
-                            -gamepad1.right_stick_x
-                    )
-            );
 
-            drive.update();
+            fl.setPower(0.5);
+            bl.setPower(0.5);
+            br.setPower(0.5);
+            fr.setPower(0.5);
+
+
+
 
             if(gamepad1.right_bumper){
                 slides.moveUp();
@@ -75,10 +84,10 @@ public class FullManualTeleop extends LinearOpMode {
 //                intake.drop();
 //            }
 
-            Pose2d poseEstimate = drive.getPoseEstimate();
-            telemetry.addData("x", poseEstimate.getX());
-            telemetry.addData("y", poseEstimate.getY());
-            telemetry.addData("heading", poseEstimate.getHeading());
+//            Pose2d poseEstimate = drive.getPoseEstimate();
+//            telemetry.addData("x", poseEstimate.getX());
+//            telemetry.addData("y", poseEstimate.getY());
+//            telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.addData("Slides position",slides.getPosition());
             telemetry.addData("Target",slides.getTargetPosition());
             telemetry.update();

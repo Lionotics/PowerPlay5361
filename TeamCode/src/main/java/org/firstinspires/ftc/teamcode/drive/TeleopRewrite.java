@@ -71,9 +71,9 @@ public class TeleopRewrite extends LinearOpMode {
                 case HOLDING:
                     // Manual moving
                     slides.hold();
-                    if(gamepad2.y || gamepad1.y) {
+                    if(gamepad2.dpad_up || gamepad1.y) {
                         lift_state = LIFT_STATE.MANUAL_UP;
-                    } else if (gamepad2.x || gamepad1.x){
+                    } else if (gamepad2.dpad_down || gamepad1.x){
                         lift_state = LIFT_STATE.MANUAL_DOWN;
                     } else if(gamepad1.right_bumper || gamepad2.right_bumper){
                         // Transition to automatic moving
@@ -100,20 +100,26 @@ public class TeleopRewrite extends LinearOpMode {
 
                     slides.moveUp();
 
-                    if((!gamepad1.y && !gamepad2.y) || slidesPos > slides.SLIDES_TOP_POS){
+                    if((!gamepad1.y && !gamepad2.dpad_up) || slidesPos > slides.SLIDES_TOP_POS){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
 
                 case MANUAL_DOWN:
                     slides.moveDown();
-                    if((!gamepad2.x && !gamepad1.x) || slidesPos < slides.SLIDES_BOTTOM_POS){
+                    if((!gamepad2.dpad_down && !gamepad1.x) || slidesPos < slides.SLIDES_BOTTOM_POS){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
                 case AUTO_MOVE:
                     slides.moveTowardsGoal();
-                    // TODO: Add manual exit as a backup
+                    // TODO: Test this code
+                    if(gamepad2.dpad_down || gamepad1.x) {
+                        lift_state = LIFT_STATE.MANUAL_DOWN;
+                    } else if (gamepad2.dpad_up || gamepad1.y){
+                        lift_state = LIFT_STATE.MANUAL_DOWN;
+
+                    }
 
                     if(Math.abs(slidesPos - slides.getTargetPosition()) < 15){
                         // TODO: Tune the sensitivity of that

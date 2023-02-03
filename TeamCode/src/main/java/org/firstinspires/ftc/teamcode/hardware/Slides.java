@@ -23,7 +23,7 @@ public class Slides extends Mechanism{
 
     // Constants
     public static double SLIDES_HOLDING_CURRENT = 0.07;
-    public static int SLIDES_TOP_POS = -3000;
+    public static int SLIDES_TOP_POS = -3100;
     public static int SLIDES_BOTTOM_POS = 0;
     public static int SLIDES_LOW_POS = -1300;
     public static int SLIDES_MIDDLE_POS = -2030;
