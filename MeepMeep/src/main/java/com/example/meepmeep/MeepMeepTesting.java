@@ -38,14 +38,43 @@ public class MeepMeepTesting {
 
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
-                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
-                                        .forward(52)
-                                        .turn(toRadians(45))
+                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(180)))
+                                        // Preload
+                                        .strafeRight(52)
+                                        .turn(toRadians(-45))
                                         .forward(5.5)
-                                        // LEFT
+                                        .waitSeconds(0.5)
+                                        // Cycles 1
+                                        .back(7)
+                                        .turn(toRadians(-135))
+                                        .forward(24)
+                                        .waitSeconds(2)
+                                        .back(24)
+                                        .turn(toRadians(135))
+                                        .forward(6.5)
+                                        .waitSeconds(0.5)
+                                        // Cycle 2
+                                        .back(7)
+                                        .turn(toRadians(-135))
+                                        .forward(24)
+                                        .waitSeconds(2)
+                                        .back(24)
+                                        .turn(toRadians(135))
+                                        .forward(6.5)
+                                        .waitSeconds(0.5)
+//                                        // LEFT
                                         .back(5.5)
                                         .turn(toRadians(45))
                                         .forward(25)
+//                                        .turn((toRadians(-90)))
+//                                        // right
+//                                        .back(5.5)
+//                                        .turn(toRadians(-135))
+//                                        .forward(25)
+//                                        .turn((toRadians(90)))
+//                                        // Center
+//                                        .back(6.5)
+//                                        .turn(toRadians(-45))
 
 //                                        .waitSeconds(1)
 //                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
