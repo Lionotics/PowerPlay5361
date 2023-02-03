@@ -73,7 +73,7 @@ public class AutoRight extends LinearOpMode
             @Override
             public void onOpened()
             {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -85,17 +85,15 @@ public class AutoRight extends LinearOpMode
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
+        intake.open();
 
         Slides slides = new Slides();
         slides.init(hardwareMap);
-
 
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(new Pose2d(38.8, -61.5, toRadians(90)));
-
-
 
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
                 .forward(52)
@@ -117,10 +115,6 @@ public class AutoRight extends LinearOpMode
                 .turn(toRadians(135))
                 .forward(7)
                 .build();
-
-
-        intake.open();
-
 
         /*
          * The INIT-loop:
@@ -203,6 +197,9 @@ public class AutoRight extends LinearOpMode
             telemetry.update();
         }
 
+        if (isStopRequested() || !opModeIsActive()) return;
+
+
         /* Actually do something useful */
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
 
@@ -243,8 +240,6 @@ public class AutoRight extends LinearOpMode
         drive.followTrajectorySequence(stepFour);
         intake.close();
         sleep(1000);
-
-
 
         // Save state for teleop
         VariableStorage.currentPose = drive.getPoseEstimate();

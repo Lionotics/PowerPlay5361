@@ -43,7 +43,9 @@ public class Drivetrain extends Mechanism{
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
+
         imu.initialize(parameters);
+        imu.resetYaw();
 
     }
     public double getHeading(){

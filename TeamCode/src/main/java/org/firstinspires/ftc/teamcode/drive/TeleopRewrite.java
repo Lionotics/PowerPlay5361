@@ -12,28 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
 
 //@TeleOp(name = "New Teleop")
-@TeleOp(name =
-        "🟦🟦🟦🟦🟦🟦🟦🟦🟦⬛⬛⬛⬛⬛🟦🟦🟦🟦🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦🟦🟦🟦⬛⬛🟥🟥🟥⬛⬛⬛🟦🟦🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦🟦🟦⬛⬛🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦🟦🟦⬛🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦🟦🟦⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦🟦🟦⬛🟥🟥🟥⬜⬜⬜⬜⬜⬜⬛⬛🟦🟦" +
-                "🟦🟦🟦🟦⬛⬛⬛🟥🟥🟥⬜⬜⬜⬜⬜⬜⬜⬜⬛🟦🟦" +
-                "🟦🟦🟦⬛🟥⬛⬛🟥🟥🟥⬜⬜⬜⬜⬜⬜⬜⬜⬛🟦🟦" +
-                "🟦🟦🟦⬛🟥⬛⬛🟥🟥🟥⬛⬜⬜⬜⬜⬜⬜⬜⬛🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥⬛⬛⬛⬛⬛⬛⬛🟦🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦⬛⬛🟥⬛⬛🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦🟦⬛⬛⬛⬛🟥🟥🟥🟥⬛⬛🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦⬛⬛🟥🟥🟥🟥⬛⬛🟥🟥🟥🟥⬛🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦⬛⬛⬛🟥🟥⬛⬛⬛🟥🟥🟥⬛🟦🟦🟦🟦" +
-                "🟦🟦🟦🟦🟦🟦🟦⬛⬛⬛⬛🟦⬛⬛⬛⬛⬛🟦🟦🟦🟦")
+@TeleOp(name ="Teleop")
 
 public class TeleopRewrite extends LinearOpMode {
 
@@ -46,6 +25,8 @@ public class TeleopRewrite extends LinearOpMode {
     private double loopTime = 0;
 
     private double maxVel = 0;
+    private int slidesPos;
+
 
 
     @Override
@@ -76,10 +57,13 @@ public class TeleopRewrite extends LinearOpMode {
 
         // Loop ran durring teleop
         while (opModeIsActive()) {
+            // Put all hardware reads here
+            slidesPos = slides.getPosition();
+
+
 
             // Pass the stick inputs to the drivetrain class for driver oriented controls
             drive.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-
 
             // Slides state machine
             switch (lift_state) {
@@ -116,21 +100,22 @@ public class TeleopRewrite extends LinearOpMode {
 
                     slides.moveUp();
 
-                    if((!gamepad1.y && !gamepad2.y) || slides.getPosition() > slides.SLIDES_TOP_POS){
+                    if((!gamepad1.y && !gamepad2.y) || slidesPos > slides.SLIDES_TOP_POS){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
 
                 case MANUAL_DOWN:
                     slides.moveDown();
-                    if((!gamepad2.x && !gamepad1.x) || slides.getPosition() < slides.SLIDES_BOTTOM_POS){
+                    if((!gamepad2.x && !gamepad1.x) || slidesPos < slides.SLIDES_BOTTOM_POS){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
                 case AUTO_MOVE:
                     slides.moveTowardsGoal();
+                    // TODO: Add manual exit as a backup
 
-                    if(Math.abs(slides.getPosition() - slides.getTargetPosition()) < 15){
+                    if(Math.abs(slidesPos - slides.getTargetPosition()) < 15){
                         // TODO: Tune the sensitivity of that
                         lift_state = LIFT_STATE.HOLDING;
                     }
@@ -150,7 +135,7 @@ public class TeleopRewrite extends LinearOpMode {
             }
 
             telemetry.addData("state", lift_state);
-            telemetry.addData("Slides position",slides.getPosition());
+            telemetry.addData("Slides position",slidesPos);
             telemetry.addData("Target",slides.getTargetPosition());
             telemetry.addData("Slides power", slides.getCurrentPower());
             telemetry.addData("heading",drive.getHeading());
