@@ -38,28 +38,28 @@ public class MeepMeepTesting {
 
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
-                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+                                drive.trajectorySequenceBuilder(new Pose2d(-35.25, -61.5, toRadians(90)))
                                         .forward(64)
                                         .back(12)
-                                        .turn(toRadians(42))
+                                        .turn(toRadians(-42))
                                         .forward(5.5)
                                         .back(6.5)
-                                        .turn(toRadians(-132))
+                                        .turn(toRadians(132))
                                         .forward(20)
                                         .forward(4)
                                         .back(24)
-                                        .turn(toRadians(132))
+                                        .turn(toRadians(-132))
                                         .forward(6.5)
                                         // PARKING
                                         .back(7)
+                                        // right
+                                         .turn(toRadians(-48))
+                                        .forward(  25)
                                         // LEFT
-//                                        .turn(toRadians(48))
-//                                        .forward(25)
-                                        // RIGHT
-//                                        .turn(toRadians(48))
+//                                        .turn(toRadians(-48))
 //                                        .back(25)
                                         // CENTER
-                                        .turn(toRadians(48))
+//                                        .turn(toRadians(-48))
 
 
                                         // Preload

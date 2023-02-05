@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Slides;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.util.VariableStorage;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -60,11 +61,11 @@ public class AutoLeft extends LinearOpMode
     @Override
     public void runOpMode()
     {
+
         PhotonCore.enable();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-
 
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -72,69 +73,69 @@ public class AutoLeft extends LinearOpMode
             @Override
             public void onOpened()
             {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
             public void onError(int errorCode)
-            {
-
-            }
+            {}
         });
 
         telemetry.setMsTransmissionInterval(50);
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
+
         Slides slides = new Slides();
         slides.init(hardwareMap);
-
 
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        drive.setPoseEstimate(new Pose2d(-38.8, -61.5, toRadians(90)));
-
-
+        drive.setPoseEstimate(new Pose2d(38.8, -61.5, toRadians(90)));
 
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(-38.8, -61.5, toRadians(90)))
-                .splineTo(new Vector2d(-16.8,-51.5),toRadians(90))
-                .forward(9)
-                .splineTo(new Vector2d(-12.8,-29.5), toRadians(45))
-                .forward(2.5)
-
-//                .lineToLinearHeading(new Pose2d(8.8,-30.5,toRadians(90+45)))
+                .forward(64)
+                .back(12)
+                .build();
+        TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
+                .turn(toRadians(-42))
+                .forward(5.5)
                 .build();
 
-        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(new Pose2d(-14.6,-26.8, toRadians(45)))
-                .back(5)
-                .turn(toRadians(45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
+
+
+        TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
+                // 33.3
+                .back(6.5)
+                .turn(toRadians(132))
                 .forward(20)
                 .build();
-
-        TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(new Pose2d(-14.6,-26.8, toRadians(45)))
-                .back(5)
-                .turn(toRadians(45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                .forward(20)
-//                                .strafeRight(20)
-//                .splineTo(new Vector2d(35.5,-10),toRadians(90))
-                .turn(toRadians(90))
-                .forward(25)
-                .turn(toRadians(-90))
+        TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
+                .forward(4)
+                .build();
+        TrajectorySequence stepFour = drive.trajectorySequenceBuilder(stepThree.end())
+                .back(24)
+                .turn(toRadians(-132))
+                .forward(6.5)
                 .build();
 
-        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(new Pose2d(-14.6,-26.8, toRadians(45)))                                   .back(5)
-                .turn(toRadians(45))
-//                                .splineTo(new Vector2d(11.5,-7), toRadians(90))
-                .forward(20)
-                .turn(toRadians(90))
-                .forward(45)
-                .turn(toRadians(-90))
+        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(stepFour.end())
+                .back(7)
+                .turn(toRadians(-48))
+                .back(24)
+                .build();
+        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(stepFour.end())
+                .back(7)
+                .turn(toRadians(-48))
+                .forward(24)
+                .build();
+        TrajectorySequence parkCenter = drive.trajectorySequenceBuilder(stepFour.end())
+                .back(7)
+                .turn(toRadians(-48))
                 .build();
 
-
+        intake.moveForInit();
 
 
 
@@ -220,6 +221,9 @@ public class AutoLeft extends LinearOpMode
             telemetry.update();
         }
 
+        if (isStopRequested() || !opModeIsActive()) return;
+
+
         /* Actually do something useful */
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
 
@@ -234,28 +238,65 @@ public class AutoLeft extends LinearOpMode
             // Park Right
             parking_location = parking_location.RIGHT;
         }
-        sleep(1000);
-        slides.raiseToTop();
-        drive.followTrajectorySequence(stepOne);
-        slides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slides.hold();
         intake.open();
-        sleep(1250);
-
-        if(parking_location == PARKING_LOCATION.RIGHT){
-            drive.followTrajectorySequence(parkRight);
-        } else if (parking_location == PARKING_LOCATION.MIDDLE){
-            drive.followTrajectorySequence(parkMiddle);
-        }  else{
-            drive.followTrajectorySequence(parkLeft);
-
+        sleep(250);
+        slides.setTarget(-100);
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
         }
-//        slides.lower();
+        slides.hold();
+        drive.followTrajectorySequence(stepOne);
+        slides.raiseToTop();
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 30){
+            slides.moveTowardsGoal();
+            telemetry.addData("pos",slides.getPosition());
+            telemetry.addData("target",slides.getTargetPosition());
+            telemetry.update();
+        }
+        slides.hold();
+        drive.followTrajectorySequence(stepOnePointFive);
+        intake.close();
         sleep(1000);
+//        drive.followTrajectorySequence(parkLeft);
 
 
+        // cycles
+        drive.followTrajectorySequence(stepTwo);
+        slides.setTarget(-450);
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
+        }
+        slides.hold();
+        drive.followTrajectorySequence(stepThree);
+        intake.open();
+        sleep(500);
+        slides.raiseToTop();
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
+        }
+        slides.hold();
+        drive.followTrajectorySequence(stepFour);
+        intake.close();
+        sleep(500);
+        // Parking!
+        if (parking_location == PARKING_LOCATION.LEFT){
+            drive.followTrajectorySequence(parkLeft);
+        } else if (parking_location == PARKING_LOCATION.RIGHT){
+            drive.followTrajectorySequence(parkRight);
+        } else{
+            drive.followTrajectorySequence(parkCenter);
+        }
 
 
+        slides.lowerToBottom();
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
+        }
+
+        // Save state for teleop
+        VariableStorage.currentPose = drive.getPoseEstimate();
+        VariableStorage.angle = drive.getRawExternalHeading();
+        VariableStorage.slidesPos = slides.getPosition();
 
     }
 
