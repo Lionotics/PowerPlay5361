@@ -154,5 +154,6 @@ public class TeleopRewrite extends LinearOpMode {
             telemetry.update();
 
         }
+        drive.resetHeading();
     }
 }

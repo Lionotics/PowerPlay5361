@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.util.VariableStorage;
 public class Slides extends Mechanism{
 
     // Constants
-    public static double SLIDES_HOLDING_CURRENT = 0.07;
+    public static double SLIDES_HOLDING_CURRENT = 0.08;
     public static int SLIDES_TOP_POS = -3100;
     public static int SLIDES_BOTTOM_POS = 0;
     public static int SLIDES_LOW_POS = -1300;

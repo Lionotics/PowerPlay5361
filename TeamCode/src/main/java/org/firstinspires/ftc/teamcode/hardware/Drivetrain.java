@@ -45,8 +45,10 @@ public class Drivetrain extends Mechanism{
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
         imu.initialize(parameters);
-        imu.resetYaw();
 
+    }
+    public void resetHeading(){
+        imu.resetYaw();
     }
     public double getHeading(){
         return  -Math.toDegrees(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
@@ -98,4 +100,6 @@ public class Drivetrain extends Mechanism{
 
 
     }
+
+
 }

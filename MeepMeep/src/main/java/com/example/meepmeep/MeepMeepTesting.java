@@ -38,34 +38,57 @@ public class MeepMeepTesting {
 
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
-                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(180)))
-                                        // Preload
-                                        .strafeRight(52)
-                                        .turn(toRadians(-45))
+                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+                                        .forward(64)
+                                        .back(12)
+                                        .turn(toRadians(42))
                                         .forward(5.5)
-                                        .waitSeconds(0.5)
-                                        // Cycles 1
-                                        .back(7)
-                                        .turn(toRadians(-135))
-                                        .forward(24)
-                                        .waitSeconds(2)
+                                        .back(6.5)
+                                        .turn(toRadians(-132))
+                                        .forward(20)
+                                        .forward(4)
                                         .back(24)
-                                        .turn(toRadians(135))
+                                        .turn(toRadians(132))
                                         .forward(6.5)
-                                        .waitSeconds(0.5)
-                                        // Cycle 2
+                                        // PARKING
                                         .back(7)
-                                        .turn(toRadians(-135))
-                                        .forward(24)
-                                        .waitSeconds(2)
-                                        .back(24)
-                                        .turn(toRadians(135))
-                                        .forward(6.5)
-                                        .waitSeconds(0.5)
-//                                        // LEFT
-                                        .back(5.5)
-                                        .turn(toRadians(45))
-                                        .forward(25)
+                                        // LEFT
+//                                        .turn(toRadians(48))
+//                                        .forward(25)
+                                        // RIGHT
+//                                        .turn(toRadians(48))
+//                                        .back(25)
+                                        // CENTER
+                                        .turn(toRadians(48))
+
+
+                                        // Preload
+//                                        .strafeRight(52)
+//                                        .turn(toRadians(-45))
+//                                        .forward(5.5)
+//                                        .waitSeconds(0.5)
+//                                        // Cycles 1
+//                                        .back(7)
+//                                        .turn(toRadians(-135))
+//                                        .forward(24)
+//                                        .waitSeconds(2)
+//                                        .back(24)
+//                                        .turn(toRadians(135))
+//                                        .forward(6.5)
+//                                        .waitSeconds(0.5)
+//                                        // Cycle 2
+//                                        .back(7)
+//                                        .turn(toRadians(-135))
+//                                        .forward(24)
+//                                        .waitSeconds(2)
+//                                        .back(24)
+//                                        .turn(toRadians(135))
+//                                        .forward(6.5)
+//                                        .waitSeconds(0.5)
+////                                        // LEFT
+//                                        .back(5.5)
+//                                        .turn(toRadians(45))
+//                                        .forward(25)
 //                                        .turn((toRadians(-90)))
 //                                        // right
 //                                        .back(5.5)
