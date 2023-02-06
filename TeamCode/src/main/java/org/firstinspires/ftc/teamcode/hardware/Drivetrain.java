@@ -45,6 +45,7 @@ public class Drivetrain extends Mechanism{
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
         imu.initialize(parameters);
+        imu.resetYaw();
 
     }
     public void resetHeading(){

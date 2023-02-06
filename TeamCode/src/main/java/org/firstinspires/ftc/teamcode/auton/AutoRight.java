@@ -95,44 +95,49 @@ public class AutoRight extends LinearOpMode
         drive.setPoseEstimate(new Pose2d(38.8, -61.5, toRadians(90)));
 
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
-                .forward(64)
+                .forward(63.5)
                 .back(12)
                 .build();
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
-                .turn(toRadians(42))
-                .forward(5.5)
+                .turn(toRadians(45))
+                .forward(5.7)
                 .build();
 
 
 
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 // 33.3
-                .back(6.5)
-                .turn(toRadians(-132))
+                .back(6.7)
+                .turn(toRadians(-135))
                 .forward(20)
                 .build();
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
-                .forward(4)
+                .forward(3.5)
                 .build();
         TrajectorySequence stepFour = drive.trajectorySequenceBuilder(stepThree.end())
-                .back(24)
-                .turn(toRadians(132))
-                .forward(6.5)
+                .back(24.5)
+                .turn(toRadians(135))
+                .forward(6.7)
                 .build();
 
            TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(stepFour.end())
-                   .back(7)
-                   .turn(toRadians(48))
+                   .back(7.2)
+                   .turn(toRadians(45))
                    .forward(24)
-            .build();
+                   .turn(toRadians(-90))
+                   .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(stepFour.end())
                 .back(7)
-                .turn(toRadians(48))
-                .back(24)
+                .turn(toRadians(45))
+                .back(14)
+                .turn(toRadians(-90))
+                .strafeRight(10)
+
                 .build();
         TrajectorySequence parkCenter = drive.trajectorySequenceBuilder(stepFour.end())
                 .back(7)
-                .turn(toRadians(48))
+                .turn(toRadians(45))
+                .turn(toRadians(-90))
                 .build();
 
         intake.moveForInit();
@@ -262,7 +267,7 @@ public class AutoRight extends LinearOpMode
 
         // cycles
         drive.followTrajectorySequence(stepTwo);
-        slides.setTarget(-450);
+        slides.setTarget(-480);
         while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
             slides.moveTowardsGoal();
         }

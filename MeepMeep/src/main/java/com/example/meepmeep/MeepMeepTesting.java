@@ -53,13 +53,18 @@ public class MeepMeepTesting {
                                         // PARKING
                                         .back(7)
                                         // right
-                                         .turn(toRadians(-48))
-                                        .forward(  25)
-                                        // LEFT
-//                                        .turn(toRadians(-48))
-//                                        .back(25)
+//                                         .turn(toRadians(-48))
+//                                        .forward(  25)
+//                                        .turn(toRadians(90))
+//                                        // LEFT
+                                        .turn(toRadians(-45))
+                                        .back(5)
+
+                                        .turn(toRadians(90))
+                                        .strafeLeft(21)
+
                                         // CENTER
-//                                        .turn(toRadians(-48))
+//                                        .turn(toRadians(45))
 
 
                                         // Preload

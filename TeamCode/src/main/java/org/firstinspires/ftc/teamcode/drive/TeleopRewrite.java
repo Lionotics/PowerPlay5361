@@ -100,14 +100,14 @@ public class TeleopRewrite extends LinearOpMode {
 
                     slides.moveUp();
 
-                    if((!gamepad1.y && !gamepad2.dpad_up) || slidesPos > slides.SLIDES_TOP_POS){
+                    if((!gamepad1.y && !gamepad2.dpad_up) || slidesPos < slides.SLIDES_TOP_POS ){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
 
                 case MANUAL_DOWN:
                     slides.moveDown();
-                    if((!gamepad2.dpad_down && !gamepad1.x) || slidesPos < slides.SLIDES_BOTTOM_POS){
+                    if((!gamepad2.dpad_down && !gamepad1.x) || slidesPos > slides.SLIDES_BOTTOM_POS ){
                         lift_state = LIFT_STATE.HOLDING;
                     }
                     break;
@@ -146,6 +146,8 @@ public class TeleopRewrite extends LinearOpMode {
             telemetry.addData("Slides power", slides.getCurrentPower());
             telemetry.addData("heading",drive.getHeading());
             telemetry.addData("MaxVel",maxVel);
+            telemetry.addData("pos",intake.getPosition());
+
 
             double loop = System.nanoTime();
             telemetry.addData("hz ", 1000000000 / (loop - loopTime));
