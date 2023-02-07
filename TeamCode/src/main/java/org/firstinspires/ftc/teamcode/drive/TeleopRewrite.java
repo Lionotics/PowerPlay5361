@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.hardware.Slides;
 //@TeleOp(name = "New Teleop")
 @TeleOp(name ="Teleop")
 
-public class TelopRewrite extends LinearOpMode {
+public class TeleopRewrite extends LinearOpMode {
 
     private enum LIFT_STATE {
         AUTO_MOVE,
