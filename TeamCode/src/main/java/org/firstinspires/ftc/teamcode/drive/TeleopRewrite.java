@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.hardware.Slides;
 //@TeleOp(name = "New Teleop")
 @TeleOp(name ="Teleop")
 
-public class TeleopRewrite extends LinearOpMode {
+public class TelopRewrite extends LinearOpMode {
 
     private enum LIFT_STATE {
         AUTO_MOVE,
@@ -97,18 +97,18 @@ public class TeleopRewrite extends LinearOpMode {
                     break;
 
                 case MANUAL_UP:
-
-                    slides.moveUp();
-
                     if((!gamepad1.y && !gamepad2.dpad_up) || slidesPos < slides.SLIDES_TOP_POS ){
                         lift_state = LIFT_STATE.HOLDING;
+                    } else {
+                        slides.moveUp();
                     }
                     break;
 
                 case MANUAL_DOWN:
-                    slides.moveDown();
                     if((!gamepad2.dpad_down && !gamepad1.x) || slidesPos > slides.SLIDES_BOTTOM_POS ){
                         lift_state = LIFT_STATE.HOLDING;
+                    } else {
+                        slides.moveDown();
                     }
                     break;
                 case AUTO_MOVE:
@@ -118,6 +118,8 @@ public class TeleopRewrite extends LinearOpMode {
                         lift_state = LIFT_STATE.MANUAL_DOWN;
                     } else if (gamepad2.dpad_up || gamepad1.y){
                         lift_state = LIFT_STATE.MANUAL_DOWN;
+
+
 
                     }
 
