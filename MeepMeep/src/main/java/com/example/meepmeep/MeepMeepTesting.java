@@ -18,7 +18,7 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(50,30,toRadians(180),toRadians(180),15)
+                .setConstraints(30,30,toRadians(180),toRadians(180),15)
                 .followTrajectorySequence(drive ->
 //
 //                        //  HIGH GOAL
@@ -38,30 +38,55 @@ public class MeepMeepTesting {
 
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
-                                drive.trajectorySequenceBuilder(new Pose2d(-35.25, -61.5, toRadians(90)))
-                                        .forward(64)
-                                        .back(12)
-                                        .turn(toRadians(-42))
-                                        .forward(5.5)
-                                        .back(6.5)
-                                        .turn(toRadians(132))
-                                        .forward(20)
-                                        .forward(4)
-                                        .back(24)
-                                        .turn(toRadians(-132))
-                                        .forward(6.5)
+                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+                                        .waitSeconds(0.4)
+                                        .splineTo(new Vector2d(26.85,-6.6),toRadians(135))
+                                        .waitSeconds(0.5)
+//                                        .forward(64)
+//                                        .back(12)
+//                                        .turn(toRadians(-42))
+//                                        .forward(5.5)
+//                                        .back(6.5)
+//                                        .turn(toRadians(-135))
+//                                        .forward(20)
+//                                        .forward(4)
+                                        // Cycles
+//                                        .back(6)
+//                                        .turn(toRadians(-135))
+//                                        .splineTo(new Vector2d(47.44,-12),toRadians(0))
+//                                        .waitSeconds(1.5)
+//                                        .back(12)
+//                                        .turn(toRadians(135))
+//                                        .splineTo(new Vector2d(26.85,-6.6),toRadians(135))
+//                                        .waitSeconds(1)
+//                                        // Again!
+//                                        .back(6)
+//                                        .turn(toRadians(-135))
+//                                        .splineTo(new Vector2d(47.44,-12),toRadians(0))
+//                                        .waitSeconds(1.5)
+//                                        .back(12)
+//                                        .turn(toRadians(135))
+//                                        .splineTo(new Vector2d(26.85,-6.6),toRadians(135))
+//                                        .waitSeconds(1)
+
+
+//                                        .back(24)
+//                                        .turn(toRadians(132))
+//                                        .forward(6.5)
+//                                        .waitSeconds(0.5)
+
                                         // PARKING
-                                        .back(7)
-                                        // right
+//                                        .back(7)
+//                                        // right
 //                                         .turn(toRadians(-48))
 //                                        .forward(  25)
 //                                        .turn(toRadians(90))
-//                                        // LEFT
-                                        .turn(toRadians(-45))
-                                        .back(5)
-
-                                        .turn(toRadians(90))
-                                        .strafeLeft(21)
+////                                        // LEFT
+//                                        .turn(toRadians(45))
+//                                        .back(5)
+//
+//                                        .turn(toRadians(-90))
+//                                        .strafeLeft(21)
 
                                         // CENTER
 //                                        .turn(toRadians(45))
@@ -144,7 +169,7 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot.setDimensions(15,17))
+                .addEntity(myBot.setDimensions(17,17))
                 .start();
     }
 }

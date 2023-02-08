@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Intake extends Mechanism{
 
     private Servo claw;
-    public static double OPEN_POSITION = 0.10;
-    public static double CLOSE_POSITION = 0.38;
+    public static double OPEN_POSITION = 0.08;
+    public static double CLOSE_POSITION = 0.31;
     public static double INIT_POSITION = 0.4;
     @Override
     public void init(HardwareMap hwMap) {
