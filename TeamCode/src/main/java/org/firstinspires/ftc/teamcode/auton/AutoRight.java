@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.auton;
 
+import static org.firstinspires.ftc.teamcode.hardware.Slides.SLIDES_TOP_POS;
 import static java.lang.Math.toRadians;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -92,27 +93,28 @@ public class AutoRight extends LinearOpMode
         PARKING_LOCATION parking_location = PARKING_LOCATION.LEFT;
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        drive.setPoseEstimate(new Pose2d(38.8, -61.5, toRadians(90)));
+        drive.setPoseEstimate(new Pose2d(35.25, -61.5, toRadians(90)));
 
-        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(38.8, -61.5, toRadians(90)))
-                .forward(63.5)
-                .back(12)
+        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+                .forward(40)
+                .splineTo(new Vector2d(33,-7),toRadians(135))
                 .build();
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
-                .turn(toRadians(45))
-                .forward(5.7)
+                .forward(2.5)
                 .build();
 
 
 
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 // 33.3
-                .back(6.7)
+                .back(13)
                 .turn(toRadians(-135))
-                .forward(20)
+                .lineToSplineHeading(new Pose2d(61,-9,toRadians(0)))
                 .build();
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
-                .forward(3.5)
+                .lineToSplineHeading(new Pose2d(38.3,-12.0,toRadians(0)))
+                .turn(toRadians(135))
+                .forward(9)
                 .build();
         TrajectorySequence stepFour = drive.trajectorySequenceBuilder(stepThree.end())
                 .back(24.5)
@@ -261,42 +263,68 @@ public class AutoRight extends LinearOpMode
         slides.hold();
         drive.followTrajectorySequence(stepOnePointFive);
         intake.close();
-        sleep(1000);
-//        drive.followTrajectorySequence(parkLeft);
 
-
-        // cycles
+        sleep(500);
         drive.followTrajectorySequence(stepTwo);
-        slides.setTarget(-480);
+        slides.setTarget(-430);
         while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
             slides.moveTowardsGoal();
+        }
+        slides.hold();
+        sleep(250);
+        intake.open();
+        sleep(600);
+        slides.raiseToTop();
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 30){
+            slides.moveTowardsGoal();
+            telemetry.addData("pos",slides.getPosition());
+            telemetry.addData("target",slides.getTargetPosition());
+            telemetry.update();
         }
         slides.hold();
         drive.followTrajectorySequence(stepThree);
-        intake.open();
-        sleep(500);
-        slides.raiseToTop();
-        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
-            slides.moveTowardsGoal();
-        }
-        slides.hold();
-        drive.followTrajectorySequence(stepFour);
+        sleep(1000);
         intake.close();
-        sleep(500);
-        // Parking!
-        if (parking_location == PARKING_LOCATION.LEFT){
-            drive.followTrajectorySequence(parkLeft);
-        } else if (parking_location == PARKING_LOCATION.RIGHT){
-            drive.followTrajectorySequence(parkRight);
-        } else{
-            drive.followTrajectorySequence(parkCenter);
-        }
+        sleep(250);
 
 
-        slides.lowerToBottom();
-        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
-            slides.moveTowardsGoal();
-        }
+
+
+////        drive.followTrajectorySequence(parkLeft);
+//
+//
+//        // cycles
+//        drive.followTrajectorySequence(stepTwo);
+//        slides.setTarget(-480);
+//        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+//            slides.moveTowardsGoal();
+//        }
+//        slides.hold();
+//        drive.followTrajectorySequence(stepThree);
+//        intake.open();
+//        sleep(500);
+//        slides.raiseToTop();
+//        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+//            slides.moveTowardsGoal();
+//        }
+//        slides.hold();
+//        drive.followTrajectorySequence(stepFour);
+//        intake.close();
+//        sleep(500);
+//        // Parking!
+//        if (parking_location == PARKING_LOCATION.LEFT){
+//            drive.followTrajectorySequence(parkLeft);
+//        } else if (parking_location == PARKING_LOCATION.RIGHT){
+//            drive.followTrajectorySequence(parkRight);
+//        } else{
+//            drive.followTrajectorySequence(parkCenter);
+//        }
+//
+//
+//        slides.lowerToBottom();
+//        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+//            slides.moveTowardsGoal();
+//        }
 
         // Save state for teleop
         VariableStorage.currentPose = drive.getPoseEstimate();

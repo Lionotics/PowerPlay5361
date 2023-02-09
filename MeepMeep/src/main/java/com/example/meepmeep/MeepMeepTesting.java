@@ -39,9 +39,26 @@ public class MeepMeepTesting {
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
                                 drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
-                                        .waitSeconds(0.4)
-                                        .splineTo(new Vector2d(26.85,-6.6),toRadians(135))
                                         .waitSeconds(0.5)
+                                        .forward(40)
+                                        .splineTo(new Vector2d(33,-7),toRadians(135))
+                                        .waitSeconds(2)
+                                        .forward(3)
+                                        .waitSeconds(0.5)
+                                        .back(12)
+                                        .turn(toRadians(-135))
+//                                        .splineTo(new Vector2d(61,-9), toRadians(135))
+                                        .lineToSplineHeading(new Pose2d(61,-9,toRadians(0)))
+                                        .waitSeconds(1.7)
+                                        .lineToSplineHeading(new Pose2d(38.3,-12.0,toRadians(0)))
+                                        .turn(toRadians(135))
+                                        .forward(12)
+//                                        .back(20)
+//                                        .lineToSplineHeading(new Pose2d(33,-7,toRadians(135)))
+                                        .waitSeconds(2)
+
+
+
 //                                        .forward(64)
 //                                        .back(12)
 //                                        .turn(toRadians(-42))
