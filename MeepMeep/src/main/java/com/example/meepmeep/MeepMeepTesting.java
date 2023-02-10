@@ -45,17 +45,20 @@ public class MeepMeepTesting {
                                         .waitSeconds(2)
                                         .forward(3)
                                         .waitSeconds(0.5)
-                                        .back(12)
-                                        .turn(toRadians(-135))
+                                        .back(10)
+//                                        .turn(toRadians(-135))
 //                                        .splineTo(new Vector2d(61,-9), toRadians(135))
                                         .lineToSplineHeading(new Pose2d(61,-9,toRadians(0)))
                                         .waitSeconds(1.7)
                                         .lineToSplineHeading(new Pose2d(38.3,-12.0,toRadians(0)))
-                                        .turn(toRadians(135))
+//                                        .turn(toRadians(135))
                                         .forward(12)
 //                                        .back(20)
 //                                        .lineToSplineHeading(new Pose2d(33,-7,toRadians(135)))
                                         .waitSeconds(2)
+
+                                        .back(5)
+                                        .lineToLinearHeading(new Pose2d(60,-11,toRadians(90)))
 
 
 

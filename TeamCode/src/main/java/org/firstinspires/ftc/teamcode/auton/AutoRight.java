@@ -142,7 +142,6 @@ public class AutoRight extends LinearOpMode
                 .turn(toRadians(-90))
                 .build();
 
-        intake.moveForInit();
 
 
 
@@ -245,6 +244,7 @@ public class AutoRight extends LinearOpMode
             // Park Right
             parking_location = parking_location.RIGHT;
         }
+        // close claw and raise slides a bit
         intake.open();
         sleep(250);
         slides.setTarget(-100);
@@ -252,7 +252,9 @@ public class AutoRight extends LinearOpMode
             slides.moveTowardsGoal();
         }
         slides.hold();
+        // move to top pole
         drive.followTrajectorySequence(stepOne);
+        // slides up
         slides.raiseToTop();
         while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 30){
             slides.moveTowardsGoal();
@@ -261,11 +263,13 @@ public class AutoRight extends LinearOpMode
             telemetry.update();
         }
         slides.hold();
+        // finish moving and drop
         drive.followTrajectorySequence(stepOnePointFive);
         intake.close();
-
         sleep(500);
+        // move to stack
         drive.followTrajectorySequence(stepTwo);
+        // slides down
         slides.setTarget(-430);
         while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
             slides.moveTowardsGoal();
@@ -274,6 +278,7 @@ public class AutoRight extends LinearOpMode
         sleep(250);
         intake.open();
         sleep(600);
+        // and up
         slides.raiseToTop();
         while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 30){
             slides.moveTowardsGoal();
@@ -282,8 +287,36 @@ public class AutoRight extends LinearOpMode
             telemetry.update();
         }
         slides.hold();
+        // back to top pole
         drive.followTrajectorySequence(stepThree);
-        sleep(1000);
+        sleep(500);
+        intake.close();
+        sleep(250);
+
+        // move to stack again!
+        drive.followTrajectorySequence(stepTwo);
+        // slides down
+        // TODO: tune height for second cone
+        slides.setTarget(-430);
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
+            slides.moveTowardsGoal();
+        }
+        slides.hold();
+        sleep(250);
+        intake.open();
+        sleep(600);
+        // and up
+        slides.raiseToTop();
+        while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 30){
+            slides.moveTowardsGoal();
+            telemetry.addData("pos",slides.getPosition());
+            telemetry.addData("target",slides.getTargetPosition());
+            telemetry.update();
+        }
+        slides.hold();
+        // back to top pole
+        drive.followTrajectorySequence(stepThree);
+        sleep(500);
         intake.close();
         sleep(250);
 

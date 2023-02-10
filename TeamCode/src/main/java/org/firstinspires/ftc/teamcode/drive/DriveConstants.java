@@ -55,9 +55,9 @@ public class DriveConstants {
 //    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
 //    public static double kA = 0;
 //    public static double kStatic = 0;
-    public static double kV = 0.0165;
-    public static double kA = 0.004;
-    public static double kStatic = 0.001;
+    public static double kV = 0.0145;
+    public static double kA = 0.003;
+    public static double kStatic = 0.1;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -69,8 +69,8 @@ public class DriveConstants {
 
     public static double MAX_VEL = 30;
     public static double MAX_ACCEL = 30;
-    public static double MAX_ANG_VEL = Math.toRadians(120);
-    public static double MAX_ANG_ACCEL = Math.toRadians(120);
+    public static double MAX_ANG_VEL = Math.toRadians(180);
+    public static double MAX_ANG_ACCEL = Math.toRadians(180);
 
 
     public static double encoderTicksToInches(double ticks) {
