@@ -22,7 +22,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 // Note: this is currenlty basically copy / pasted from LRR, I will work on it more.
-@Autonomous(name="1+2 high - LEFT SIDE")
+@Autonomous(name="1+1 high - LEFT SIDE")
 public class AsyncAutoLeft extends LinearOpMode {
 
     OpenCvCamera camera;
@@ -113,14 +113,14 @@ public class AsyncAutoLeft extends LinearOpMode {
         // drive to pole
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(-35.25, -61.5, toRadians(90)))
                 .addDisplacementMarker(() -> {slides.lowerToBottom(); intake.open();})
-                .waitSeconds(0.4)
+                .waitSeconds(0.3)
                 .forward(40)
                 .splineTo(new Vector2d(-33.5,-6.5),toRadians(135))
                 .build();
         // after the slides go up, drive forward and place on pole
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
                 .forward(3.2)
-                .waitSeconds(0.5)
+                .waitSeconds(0.3)
                 .addDisplacementMarker(2.5,() -> {intake.close();})
                 .waitSeconds(0.2)
                 .build();
@@ -134,6 +134,7 @@ public class AsyncAutoLeft extends LinearOpMode {
 // same as before, but lower for the second cone
         TrajectorySequence stepTwoLower = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 // 33.3
+
                 .back(15)
                 .addDisplacementMarker(15, () -> {slides.setTarget(-320);})
                 .lineToSplineHeading(new Pose2d(-60.8,-9,toRadians(0)))
@@ -141,32 +142,35 @@ public class AsyncAutoLeft extends LinearOpMode {
                 .build();
 // Go from stack back to the top pole
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
-                .waitSeconds(0.5)
+                .waitSeconds(0.3)
                 .addDisplacementMarker(()->{slides.raiseToTop();})
-                .lineToSplineHeading(new Pose2d(-38.3,-12.0,toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-38.4,-12.0,toRadians(0)))
                 .turn(toRadians(-135))
-                .forward(9.5)
+                .forward(11)
+                .waitSeconds(0.3)
                 .build();
 // PARKING!
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(stepThree.end())
                 .waitSeconds(0.5)
                 .back(5)
                 .addDisplacementMarker(5,()->{slides.lowerToBottom();})
-                .lineToLinearHeading(new Pose2d(-60,-11,toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-61,-11,toRadians(90)))
                 .build();
         // TODO: Test parking
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(stepThree.end())
                 .waitSeconds(0.5)
-                .back(5)
-                .addDisplacementMarker(5,()->{slides.lowerToBottom();})
-                .lineToLinearHeading(new Pose2d(-15,-11,toRadians(90)))
+                .back(7)
+                .addDisplacementMarker(10,()->{slides.lowerToBottom();})
+                .lineToLinearHeading(new Pose2d(-11,-11,toRadians(90)))
                 .build();
 
         TrajectorySequence parkCenter = drive.trajectorySequenceBuilder(stepThree.end())
                 .waitSeconds(0.5)
-                .back(5)
-                .addDisplacementMarker(5,()->{slides.lowerToBottom();})
-                .lineToLinearHeading(new Pose2d(-35,-11,toRadians(90)))
+                .back(9)
+                .turn(toRadians(45))
+                .waitSeconds(0.2)
+                .addDisplacementMarker(6,()->{slides.lowerToBottom();})
+//                .lineToLinearHeading(new Pose2d(35,-11,toRadians(90)))
                 .build();
 
         /*
@@ -308,7 +312,7 @@ public class AsyncAutoLeft extends LinearOpMode {
                 case TRAJECTORY_3:
 
                     if (!drive.isBusy()) {
-                        currentState = State.TRAJECTORY_4;
+                        currentState = State.TRAJECTORY_6;
                         intake.open();
                         drive.followTrajectorySequenceAsync(stepThree);
 
@@ -334,9 +338,9 @@ public class AsyncAutoLeft extends LinearOpMode {
                         intake.close();
                         currentState = State.PARKING;
                         if(parking_location == AutoRight.PARKING_LOCATION.LEFT) {
-                            drive.followTrajectorySequenceAsync(parkLeft);
-                        } else if (parking_location == AutoRight.PARKING_LOCATION.RIGHT){
                             drive.followTrajectorySequenceAsync(parkRight);
+                        } else if (parking_location == AutoRight.PARKING_LOCATION.RIGHT){
+                            drive.followTrajectorySequenceAsync(parkLeft);
                         } else{
                             drive.followTrajectorySequenceAsync(parkCenter);
                         }
