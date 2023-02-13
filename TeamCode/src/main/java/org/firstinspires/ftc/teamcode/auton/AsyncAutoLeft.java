@@ -115,7 +115,7 @@ public class AsyncAutoLeft extends LinearOpMode {
                 .addDisplacementMarker(() -> {slides.lowerToBottom(); intake.open();})
                 .waitSeconds(0.3)
                 .forward(40)
-                .splineTo(new Vector2d(-33.5,-6.5),toRadians(135))
+                .splineTo(new Vector2d(-33.5,-6.5),toRadians(45))
                 .build();
         // after the slides go up, drive forward and place on pole
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
@@ -128,7 +128,7 @@ public class AsyncAutoLeft extends LinearOpMode {
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 .back(15)
                 .addDisplacementMarker(15, () -> {slides.setTarget(-430);})
-                .lineToSplineHeading(new Pose2d(-60.8,-9,toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-60.8,-9,toRadians(180)))
                 .waitSeconds(0.2)
                 .build();
 // same as before, but lower for the second cone
@@ -144,7 +144,7 @@ public class AsyncAutoLeft extends LinearOpMode {
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
                 .waitSeconds(0.3)
                 .addDisplacementMarker(()->{slides.raiseToTop();})
-                .lineToSplineHeading(new Pose2d(-38.4,-12.0,toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-38.4,-12.0,toRadians(180)))
                 .turn(toRadians(-135))
                 .forward(11)
                 .waitSeconds(0.3)
@@ -153,7 +153,6 @@ public class AsyncAutoLeft extends LinearOpMode {
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(stepThree.end())
                 .waitSeconds(0.5)
                 .back(5)
-                .addDisplacementMarker(5,()->{slides.lowerToBottom();})
                 .lineToLinearHeading(new Pose2d(-61,-11,toRadians(90)))
                 .build();
         // TODO: Test parking

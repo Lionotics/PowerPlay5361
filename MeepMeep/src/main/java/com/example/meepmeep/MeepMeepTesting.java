@@ -38,24 +38,26 @@ public class MeepMeepTesting {
 
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
-                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+                                drive.trajectorySequenceBuilder(new Pose2d(-35.25, -61.5, toRadians(90)))
                                         .waitSeconds(0.3)
                                         .forward(40)
-                                        .splineTo(new Vector2d(33.5,-6.5),toRadians(135))
+                                        .splineTo(new Vector2d(-33.5,-6.5),toRadians(45))
                                         .forward(3.2)
                                         .waitSeconds(0.3)
                                         .waitSeconds(0.2)
                                         .back(15)
-                                        .lineToSplineHeading(new Pose2d(60.8,-9,toRadians(0)))
+                                        .lineToSplineHeading(new Pose2d(-60.8,-9,toRadians(180)))
                                         .waitSeconds(0.2)
                                         .waitSeconds(0.3)
-                                        .lineToSplineHeading(new Pose2d(38.4,-12.0,toRadians(0)))
-                                        .turn(toRadians(135))
+                                        .lineToSplineHeading(new Pose2d(-38.4,-12.0,toRadians(180)))
+                                        .turn(toRadians(-135))
                                         .forward(11)
                                         .waitSeconds(0.3)
                                         .waitSeconds(0.5)
                                         .back(5)
-                                        .lineToLinearHeading(new Pose2d(61,-11,toRadians(90)))
+                                        .lineToLinearHeading(new Pose2d(-61,-11,toRadians(90)))
+
+
 //                                        .waitSeconds(0.2)
 //                                        .waitSeconds(0.5)
 //                                        .lineToSplineHeading(new Pose2d(38.3,-12.0,toRadians(0)))
