@@ -119,7 +119,7 @@ public class AsyncAutoRight extends LinearOpMode {
                 .build();
         // after the slides go up, drive forward and place on pole
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
-                .forward(3.2)
+                .forward(3.5)
                 .waitSeconds(0.3)
                 .addDisplacementMarker(2.5,() -> {intake.close();})
                 .waitSeconds(0.2)
@@ -127,7 +127,7 @@ public class AsyncAutoRight extends LinearOpMode {
 // GO back from the pole and approach the stack
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 .back(15)
-                .addDisplacementMarker(15, () -> {slides.setTarget(-430);})
+                .addDisplacementMarker(15, () -> {slides.setTarget(-490);   intake.tiltDown();})
                 .lineToSplineHeading(new Pose2d(60.8,-9,toRadians(0)))
                 .waitSeconds(0.2)
                 .build();
@@ -136,14 +136,14 @@ public class AsyncAutoRight extends LinearOpMode {
                 // 33.3
 
                 .back(15)
-                .addDisplacementMarker(15, () -> {slides.setTarget(-320);})
+                .addDisplacementMarker(15, () -> {slides.setTarget(-320);  intake.tiltDown();})
                 .lineToSplineHeading(new Pose2d(60.8,-9,toRadians(0)))
                 .waitSeconds(0.2)
                 .build();
 // Go from stack back to the top pole
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
                 .waitSeconds(0.3)
-                .addDisplacementMarker(()->{slides.raiseToTop();})
+                .addDisplacementMarker(()->{slides.raiseToTop(); intake.tiltUp();})
                 .lineToSplineHeading(new Pose2d(38.4,-12.0,toRadians(0)))
                 .turn(toRadians(135))
                 .forward(11)
@@ -292,6 +292,7 @@ public class AsyncAutoRight extends LinearOpMode {
                     if (!drive.isBusy()) {
                         currentState = State.WAIT_1;
                         slides.raiseToTop();
+                        intake.tiltUp();
                     }
                     break;
                 case WAIT_1:

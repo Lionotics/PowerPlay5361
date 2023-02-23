@@ -7,13 +7,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake extends Mechanism{
 
-    private Servo claw;
+    private Servo claw, tilt;
     public static double OPEN_POSITION = 0.08;
     public static double CLOSE_POSITION = 0.31;
     public static double INIT_POSITION = 0.4;
+
+    public static double TILT_DOWN = 0.38;
+    public static double TILT_UP = 0.2;
     @Override
     public void init(HardwareMap hwMap) {
         claw = hwMap.servo.get("claw");
+        tilt = hwMap.servo.get("tilt");
+        tilt.setPosition(TILT_DOWN);
 
     }
 
@@ -25,5 +30,12 @@ public class Intake extends Mechanism{
     }
     public void moveForInit(){claw.setPosition(INIT_POSITION);}
     public double getPosition(){return claw.getPosition();}
+
+    public void tiltUp(){
+        tilt.setPosition(TILT_UP);
+    }
+    public void tiltDown(){
+        tilt.setPosition(TILT_DOWN);
+    }
 }
 

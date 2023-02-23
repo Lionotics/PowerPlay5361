@@ -22,22 +22,24 @@ import org.firstinspires.ftc.teamcode.util.VariableStorage;
 public class Slides extends Mechanism{
 
     // Constants
-    public static double SLIDES_HOLDING_CURRENT = 0.08;
-    public static int SLIDES_TOP_POS = -3100;
+    public static double SLIDES_HOLDING_CURRENT = 0.09;
+    public static int SLIDES_TOP_POS = -2500;
     public static int SLIDES_BOTTOM_POS = 0;
-    public static int SLIDES_LOW_POS = -1300;
-    public static int SLIDES_MIDDLE_POS = -2030;
+    public static int SLIDES_LOW_POS = -830;
+    public static int SLIDES_MIDDLE_POS = -1700;
+
+    public static int SLIDES_TILT_SWITCH_POS = -700;
 
     public static int targetPosition = 0;
 
     // TODO: Tune these
-    public static double Kg = 0.07;
-    public static double Kp = 0.012;
+    public static double Kg = 0;
+    public static double Kp = 0.006;
     public static double Ki = 0;
-    public static double Kd = 0.003;
+    public static double Kd = 0.001;
     // These are bogus values!
-    public static double maxVel = 3100;
-    public static double maxAccel = 4000;
+    public static double maxVel = 500;
+    public static double maxAccel = 3000;
     public static double mpTarget = 0;
 
     private DcMotorEx lift;
@@ -53,7 +55,6 @@ public class Slides extends Mechanism{
         lift = (DcMotorEx) hwMap.dcMotor.get("arm");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -119,6 +120,11 @@ public class Slides extends Mechanism{
     public void moveTowardsGoal(){
         BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
         double power = -(controller.calculate(targetPosition, this.getPosition()) + Kg);
+        // only add gravity correction when going up
+
+//        if(this.getPosition() > targetPosition){
+//            power += Kg;
+//        }
         currentPower = power;
         this.setPower(power);
     }
