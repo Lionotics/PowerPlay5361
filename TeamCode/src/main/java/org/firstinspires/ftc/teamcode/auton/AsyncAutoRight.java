@@ -100,7 +100,7 @@ public class AsyncAutoRight extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         // Set inital pose
-        drive.setPoseEstimate(new Pose2d(35.25, -61.5, toRadians(90)));
+        drive.setPoseEstimate(AutoConstants.initialPositionRight);
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
@@ -111,15 +111,15 @@ public class AsyncAutoRight extends LinearOpMode {
 
         AutoRight.PARKING_LOCATION parking_location = AutoRight.PARKING_LOCATION.LEFT;
         // drive to pole
-        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(AutoConstants.initialPositionRight)
                 .addDisplacementMarker(() -> {slides.lowerToBottom(); intake.open();})
                 .waitSeconds(0.3)
                 .forward(40)
-                .splineTo(new Vector2d(33.5,-6.5),toRadians(135))
+                .splineTo(new Vector2d(AutoConstants.highPoleRight.getX(),AutoConstants.highPoleRight.getY()),toRadians(135))
                 .build();
         // after the slides go up, drive forward and place on pole
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
-                .forward(3.5)
+                .forward(AutoConstants.highPoleForward)
                 .waitSeconds(0.3)
                 .addDisplacementMarker(2.5,() -> {intake.close();})
                 .waitSeconds(0.2)
@@ -127,26 +127,26 @@ public class AsyncAutoRight extends LinearOpMode {
 // GO back from the pole and approach the stack
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 .back(15)
-                .addDisplacementMarker(15, () -> {slides.setTarget(-490);   intake.tiltDown();})
-                .lineToSplineHeading(new Pose2d(60.8,-9,toRadians(0)))
+                .addDisplacementMarker(15, () -> {slides.setTarget(AutoConstants.firstConePos);   intake.tiltDown();})
+                .lineToSplineHeading(AutoConstants.stackPositionRight)
                 .waitSeconds(0.2)
                 .build();
 // same as before, but lower for the second cone
         TrajectorySequence stepTwoLower = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 // 33.3
 
-                .back(15)
-                .addDisplacementMarker(15, () -> {slides.setTarget(-320);  intake.tiltDown();})
-                .lineToSplineHeading(new Pose2d(60.8,-9,toRadians(0)))
+                .back(AutoConstants.cycleForward + 4)
+                .addDisplacementMarker(15, () -> {slides.setTarget(AutoConstants.secondConePos);  intake.tiltDown();})
+                .lineToSplineHeading(AutoConstants.stackPositionRight)
                 .waitSeconds(0.2)
                 .build();
 // Go from stack back to the top pole
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
                 .waitSeconds(0.3)
                 .addDisplacementMarker(()->{slides.raiseToTop(); intake.tiltUp();})
-                .lineToSplineHeading(new Pose2d(38.4,-12.0,toRadians(0)))
+                .lineToSplineHeading(AutoConstants.cycleMidwayPoint)
                 .turn(toRadians(135))
-                .forward(11)
+                .forward(AutoConstants.cycleForward)
                 .waitSeconds(0.3)
                 .build();
 // PARKING!

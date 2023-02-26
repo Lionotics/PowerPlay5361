@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -33,11 +34,13 @@ import java.util.List;
  *    \--------------/
  *
  */
+@Config
+
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 4096;
     public static double WHEEL_RADIUS = 0.6889; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
-
+    // TODO: SET FOR NEW HARDWARE
     public static double PARALLEL_X = -2; // X is the up and down direction
     public static double PARALLEL_Y = -7; // Y is the strafe direction
 
@@ -58,7 +61,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         ));
 
         this.drive = drive;
-
+        // TODO: Set for new hardware
         parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightBack"));
         perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftFront"));
 
@@ -95,9 +98,6 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     @NonNull
     @Override
     public List<Double> getWheelVelocities() {
-        // TODO: If your encoder velocity can exceed 32767 counts / second (such as the REV Through Bore and other
-        //  competing magnetic encoders), change Encoder.getRawVelocity() to Encoder.getCorrectedVelocity() to enable a
-        //  compensation method
 
         return Arrays.asList(
                 encoderTicksToInches(parallelEncoder.getCorrectedVelocity()),

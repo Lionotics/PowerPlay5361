@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.util.Encoder;
 @TeleOp
-@Disabled
+
 public class EncoderTesting extends LinearOpMode {
 
     DcMotorEx test;
@@ -16,12 +16,12 @@ public class EncoderTesting extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
-        test = hardwareMap.get(DcMotorEx.class,"leftBack");
+        test = hardwareMap.get(DcMotorEx.class,"arm");
         test.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while(opModeIsActive()){
-
             telemetry.addData("position",test.getCurrentPosition());
+            telemetry.addData("Velocity",test.getVelocity());
             telemetry.update();
         }
 
