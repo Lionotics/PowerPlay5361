@@ -38,155 +38,35 @@ public class MeepMeepTesting {
 
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
-                                drive.trajectorySequenceBuilder(new Pose2d(-35.25, -61.5, toRadians(90)))
+                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
+                                        // First cone
                                         .waitSeconds(0.3)
-                                        .forward(40)
-                                        .splineTo(new Vector2d(-33.5,-6.5),toRadians(45))
-                                        .forward(3.2)
-                                        .waitSeconds(0.3)
-                                        .waitSeconds(0.2)
-                                        .back(15)
-                                        .lineToSplineHeading(new Pose2d(-60.8,-9,toRadians(180)))
-                                        .waitSeconds(0.2)
-                                        .waitSeconds(0.3)
-                                        .lineToSplineHeading(new Pose2d(-38.4,-12.0,toRadians(180)))
-                                        .turn(toRadians(-135))
-                                        .forward(11)
-                                        .waitSeconds(0.3)
+                                        .forward(20)
+                                        .splineTo(new Vector2d(34,-30),toRadians(45))
+                                        .forward(3.5)
                                         .waitSeconds(0.5)
-                                        .back(5)
-                                        .lineToLinearHeading(new Pose2d(-61,-11,toRadians(90)))
-
-
-//                                        .waitSeconds(0.2)
-//                                        .waitSeconds(0.5)
-//                                        .lineToSplineHeading(new Pose2d(38.3,-12.0,toRadians(0)))
-//                                        .turn(toRadians(135))
-//                                        .forward(9.9)
-//                                        .waitSeconds(0.2)
-//                                        .waitSeconds(0.5)
-//                                        .back(5)
-//                                        .lineToLinearHeading(new Pose2d(60,-11,toRadians(90)))
-
-
-//                                        .forward(64)
-//                                        .back(12)
-//                                        .turn(toRadians(-42))
-//                                        .forward(5.5)
-//                                        .back(6.5)
-//                                        .turn(toRadians(-135))
-//                                        .forward(20)
-//                                        .forward(4)
-                                        // Cycles
-//                                        .back(6)
-//                                        .turn(toRadians(-135))
-//                                        .splineTo(new Vector2d(47.44,-12),toRadians(0))
-//                                        .waitSeconds(1.5)
-//                                        .back(12)
-//                                        .turn(toRadians(135))
-//                                        .splineTo(new Vector2d(26.85,-6.6),toRadians(135))
-//                                        .waitSeconds(1)
-//                                        // Again!
-//                                        .back(6)
-//                                        .turn(toRadians(-135))
-//                                        .splineTo(new Vector2d(47.44,-12),toRadians(0))
-//                                        .waitSeconds(1.5)
-//                                        .back(12)
-//                                        .turn(toRadians(135))
-//                                        .splineTo(new Vector2d(26.85,-6.6),toRadians(135))
-//                                        .waitSeconds(1)
-
-
-//                                        .back(24)
-//                                        .turn(toRadians(132))
-//                                        .forward(6.5)
-//                                        .waitSeconds(0.5)
-
-                                        // PARKING
-//                                        .back(7)
-//                                        // right
-//                                         .turn(toRadians(-48))
-//                                        .forward(  25)
-//                                        .turn(toRadians(90))
-////                                        // LEFT
-//                                        .turn(toRadians(45))
-//                                        .back(5)
+                                        // Get in line with the stack
+                                        .lineToLinearHeading(new Pose2d(36,-36,toRadians(90)))
+                                        .splineTo(new Vector2d(38,-12.0),toRadians(0))
 //
-//                                        .turn(toRadians(-90))
-//                                        .strafeLeft(21)
-
-                                        // CENTER
-//                                        .turn(toRadians(45))
-
-
-                                        // Preload
-//                                        .strafeRight(52)
-//                                        .turn(toRadians(-45))
-//                                        .forward(5.5)
+//                                        // Cycles
+                                        .splineTo(new Vector2d(60.8,-9),toRadians(0))
 //                                        .waitSeconds(0.5)
-//                                        // Cycles 1
-//                                        .back(7)
-//                                        .turn(toRadians(-135))
-//                                        .forward(24)
-//                                        .waitSeconds(2)
-//                                        .back(24)
-//                                        .turn(toRadians(135))
-//                                        .forward(6.5)
+//                                        // Note: this is the one I guessed on.
+//                                        .lineToLinearHeading(new Pose2d(-33.5,-15,toRadians(-45)))
 //                                        .waitSeconds(0.5)
-//                                        // Cycle 2
-//                                        .back(7)
-//                                        .turn(toRadians(-135))
-//                                        .forward(24)
-//                                        .waitSeconds(2)
-//                                        .back(24)
-//                                        .turn(toRadians(135))
-//                                        .forward(6.5)
+//
+//                                        // Cycles
+//                                        .lineToLinearHeading(new Pose2d(-60.8,-9,toRadians(180)))
 //                                        .waitSeconds(0.5)
-////                                        // LEFT
-//                                        .back(5.5)
-//                                        .turn(toRadians(45))
-//                                        .forward(25)
-//                                        .turn((toRadians(-90)))
-//                                        // right
-//                                        .back(5.5)
-//                                        .turn(toRadians(-135))
-//                                        .forward(25)
-//                                        .turn((toRadians(90)))
-//                                        // Center
-//                                        .back(6.5)
-//                                        .turn(toRadians(-45))
+//                                        // Note: this is the one I guessed on.
+//                                        .lineToLinearHeading(new Pose2d(-33.5,-15,toRadians(-45)))
+//                                        .waitSeconds(0.5)
 
-//                                        .waitSeconds(1)
-//                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
-//                                        .forward(4.5)
-//                                        .waitSeconds(2)
-//                                        .back(4.5)
-//                                        .lineToLinearHeading(new Pose2d(36.8, -6.5, toRadians(135)))
-//                                        .waitSeconds(1)
-//                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
-//                                        .forward(4.5)
-//                                        .waitSeconds(2)
-//                                        .back(4.5)
-//                                        .lineToLinearHeading(new Pose2d(36.8, -6.5, toRadians(135)))
-//                                        .waitSeconds(1)
-//                                        .lineToLinearHeading(new Pose2d(60.3,-10,toRadians(0)))
-//                                        .forward(4.5)
-//                                        .waitSeconds(2)
-//                                        .back(4.5)
 
-//                                        .forward(52)
-//                                        .turn(toRadians(45))
-//                                        .forward(6)
-//                                        .waitSeconds(1)
-//                                        .back(9)
-//                                        .turn(toRadians(-135))
-//                                        .forward(20)
-//                                        .waitSeconds(2)
-//                                        .forward(5)
-//                                        .waitSeconds(1)
-//                                        .back(25)
-//                                        .turn(toRadians(135))
-//                                        .forward(7)
+
+                                        .waitSeconds(0.2)
+
 
                                         .build()
 

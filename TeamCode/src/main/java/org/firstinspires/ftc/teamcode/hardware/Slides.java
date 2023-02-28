@@ -15,8 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.util.VariableStorage;
 
 // Class representing our vertical slides
-
-// This is an experiemntel version with PIDF control, we'll see how it works
+// This version uses PIDF control for the slides, it's not perfect but it works pretty well
 
 @Config
 public class Slides extends Mechanism{
@@ -26,18 +25,19 @@ public class Slides extends Mechanism{
     public static int SLIDES_TOP_POS = -2500;
     public static int SLIDES_BOTTOM_POS = 0;
     public static int SLIDES_LOW_POS = -830;
-    public static int SLIDES_MIDDLE_POS = -1700;
+    public static int SLIDES_MIDDLE_POS = -1750;
 
     public static int SLIDES_TILT_SWITCH_POS = -700;
 
     public static int targetPosition = 0;
 
-    // TODO: Tune these
+    // PID + mp
+    // Not the best tune ever, but could use some work
     public static double Kg = 0;
     public static double Kp = 0.006;
     public static double Ki = 0;
     public static double Kd = 0.001;
-    // These are bogus values!
+    // Not currently using MP, tbd
     public static double maxVel = 500;
     public static double maxAccel = 3000;
     public static double mpTarget = 0;
@@ -48,7 +48,7 @@ public class Slides extends Mechanism{
     private int offset = 0;
     private double currentPower = 0;
     private MotionProfile profile;
-
+    private BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
 
     @Override
     public void init(HardwareMap hwMap) {
@@ -67,7 +67,6 @@ public class Slides extends Mechanism{
         currentPower = power;
         lift.setPower(power);
     }
-
 
     public void hold(){
         this.setPower(SLIDES_HOLDING_CURRENT);
@@ -105,8 +104,6 @@ public class Slides extends Mechanism{
     public double getCurrentPower(){
         return currentPower;
     }
-
-
     public void raiseToTop(){
         this.setTarget(SLIDES_TOP_POS);
     }
@@ -118,16 +115,11 @@ public class Slides extends Mechanism{
     public double getVelocity(){return lift.getVelocity();}
 
     public void moveTowardsGoal(){
-        BasicPID controller = new BasicPID(new PIDCoefficients(Kp, Ki, Kd));
         double power = -(controller.calculate(targetPosition, this.getPosition()) + Kg);
-        // only add gravity correction when going up
-
-//        if(this.getPosition() > targetPosition){
-//            power += Kg;
-//        }
         currentPower = power;
         this.setPower(power);
     }
+
     // Warning: Very untested and sketchy code below!
     public void setupMP(){
         timer.reset();

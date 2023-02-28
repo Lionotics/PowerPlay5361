@@ -53,7 +53,6 @@ public class AsyncAutoRight extends LinearOpMode {
     int RIGHT =3;
     AprilTagDetection tagOfInterest = null;
 
-    // TODO: Fix this for real stuff
     enum State {
         TRAJECTORY_1,
         WAIT_1,
@@ -73,7 +72,6 @@ public class AsyncAutoRight extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // TODO: Add vision
         PhotonCore.enable();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -156,7 +154,6 @@ public class AsyncAutoRight extends LinearOpMode {
                 .addDisplacementMarker(5,()->{slides.lowerToBottom();})
                 .lineToLinearHeading(new Pose2d(61,-11,toRadians(90)))
                 .build();
-        // TODO: Test parking
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(stepThree.end())
                 .waitSeconds(0.5)
                 .back(7)

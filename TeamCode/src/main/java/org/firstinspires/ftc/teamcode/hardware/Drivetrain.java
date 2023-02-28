@@ -12,12 +12,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.util.VariableStorage;
 
 @Config
-
 public class Drivetrain extends Mechanism{
+
     DcMotor motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight;
     IMU imu;
-    public static double SPEED_MULTIPLIER = 0.9;
-
+    public static double SPEED_MULTIPLIER = 0.8;
     private double offset = 0;
 
     @Override
@@ -27,12 +26,10 @@ public class Drivetrain extends Mechanism{
          motorFrontRight = hwMap.dcMotor.get("rightFront");
          motorBackRight = hwMap.dcMotor.get("rightBack");
 
-
-        // Reverse the right side motors
-        // Reverse left motors if you are using NeveRests
+        // Reverse the left side motors
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        // default behaviour is to brake
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -61,11 +58,9 @@ public class Drivetrain extends Mechanism{
         double y = -left_stick_y; // Remember, this is reversed!
         double x = left_stick_x * 1.1; // Counteract imperfect strafing
         double rx = right_stick_x;
-        // TODO: Check, this may be reversed. ALso need to check for angle wrapping issues
+
         // Read inverse IMU heading, as the IMU heading is CW positive
         double botHeading =  -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-
         double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
         double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
 
@@ -82,25 +77,6 @@ public class Drivetrain extends Mechanism{
         motorBackLeft.setPower(backLeftPower * SPEED_MULTIPLIER);
         motorFrontRight.setPower(frontRightPower * SPEED_MULTIPLIER);
         motorBackRight.setPower(backRightPower * SPEED_MULTIPLIER);
-
-//        double y = -left_stick_y; // Remember, this is reversed!
-//        double x = left_stick_x * 1.1; // Counteract imperfect strafing
-//        double rx = right_stick_x;
-//
-//        // Denominator is the largest motor power (absolute value) or 1
-//        // This ensures all the powers maintain the same ratio, but only when
-//        // at least one is out of the range [-1, 1]
-//        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-//        double frontLeftPower = (y + x + rx) / denominator;
-//        double backLeftPower = (y - x + rx) / denominator;
-//        double frontRightPower = (y - x - rx) / denominator;
-//        double backRightPower = (y + x - rx) / denominator;
-//
-//        motorFrontLeft.setPower(frontLeftPower);
-//        motorBackLeft.setPower(backLeftPower);
-//        motorFrontRight.setPower(frontRightPower);
-//        motorBackRight.setPower(backRightPower);
-
 
     }
 

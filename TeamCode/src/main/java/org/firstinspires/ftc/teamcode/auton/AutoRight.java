@@ -296,7 +296,6 @@ public class AutoRight extends LinearOpMode
         // move to stack again!
         drive.followTrajectorySequence(stepTwo);
         // slides down
-        // TODO: tune height for second cone
         slides.setTarget(-430);
         while(Math.abs(slides.getPosition() - slides.getTargetPosition()) > 15){
             slides.moveTowardsGoal();
