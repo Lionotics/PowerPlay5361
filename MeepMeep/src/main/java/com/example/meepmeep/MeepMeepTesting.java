@@ -40,18 +40,21 @@ public class MeepMeepTesting {
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
                                 drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
                                         // First cone
-                                        .waitSeconds(0.3)
                                         .forward(20)
-                                        .splineTo(new Vector2d(34,-30),toRadians(45))
-                                        .forward(3.5)
+                                        .splineTo(new Vector2d(31,-30),toRadians(135))
+                                        .forward(2)
                                         .waitSeconds(0.5)
                                         // Get in line with the stack
-                                        .lineToLinearHeading(new Pose2d(36,-36,toRadians(90)))
-                                        .splineTo(new Vector2d(38,-12.0),toRadians(0))
+                                        .lineToLinearHeading(new Pose2d(40,-35,toRadians(90)))
+                                        .splineTo(new Vector2d(39,-10.0),toRadians(0))
+                                        .splineTo(new Vector2d(60.9,-10),toRadians(0))
+                                        .waitSeconds(0.3)
+                                        .lineToLinearHeading(new Pose2d(32.5,-17,toRadians(-135)))
+                                        .forward(1)
+
 //
 //                                        // Cycles
-                                        .splineTo(new Vector2d(60.8,-9),toRadians(0))
-//                                        .waitSeconds(0.5)
+///                                        .waitSeconds(0.5)
 //                                        // Note: this is the one I guessed on.
 //                                        .lineToLinearHeading(new Pose2d(-33.5,-15,toRadians(-45)))
 //                                        .waitSeconds(0.5)
