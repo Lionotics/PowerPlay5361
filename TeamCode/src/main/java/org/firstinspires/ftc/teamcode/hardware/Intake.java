@@ -14,14 +14,15 @@ public class Intake extends Mechanism{
     public static double INIT_POSITION = 0.4;
     // Positions for claw tilt
     public static double TILT_DOWN = 0.35;
-    public static double TILT_UP = 0.2;
+    public static double TILT_UP = 0.22;
+    public static double TILT_START = 0.0;
 
     @Override
     public void init(HardwareMap hwMap) {
         // tilt it set on init, make sure to put a moves on init sticker!
         claw = hwMap.servo.get("claw");
         tilt = hwMap.servo.get("tilt");
-        tilt.setPosition(TILT_DOWN);
+        tilt.setPosition(TILT_START);
     }
 
     public void close(){
@@ -32,6 +33,7 @@ public class Intake extends Mechanism{
     }
     public void moveForInit(){claw.setPosition(INIT_POSITION);}
     public double getPosition(){return claw.getPosition();}
+    public void tiltForInit(){tilt.setPosition(TILT_START);}
 
     public void tiltUp(){
         tilt.setPosition(TILT_UP);

@@ -25,7 +25,7 @@ public class Slides extends Mechanism{
     public static int SLIDES_TOP_POS = -2500;
     public static int SLIDES_BOTTOM_POS = 0;
     public static int SLIDES_LOW_POS = -830;
-    public static int SLIDES_MIDDLE_POS = -1750;
+    public static int SLIDES_MIDDLE_POS = -1765;
 
     public static int SLIDES_TILT_SWITCH_POS = -700;
 

@@ -107,7 +107,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
         slides.init(hardwareMap);
         slides.lowerToBottom();
         intake.open();
-        intake.tiltUp();
+        intake.tiltForInit();
 
         AutoRight.PARKING_LOCATION parking_location = AutoRight.PARKING_LOCATION.LEFT;
         // drive to pole
@@ -128,28 +128,31 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                 .build();
 // GO back from the pole and approach the stack
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
-                .lineToLinearHeading(new Pose2d(40,-35,toRadians(90)))
-                .splineTo(new Vector2d(39,-10.0),toRadians(0))
-                .splineTo(new Vector2d(60.7,-10),toRadians(0))
-                .addDisplacementMarker(15, () -> {slides.setTarget(AutoConstants.firstConePos);   intake.tiltDown();})
+                .lineToLinearHeading(new Pose2d(39.6,-35,toRadians(90)))
+                .forward(20)
+//                .splineTo(new Vector2d(39,-10.0),toRadians(0))
+                .splineTo(new Vector2d(50,-11.5),toRadians(0))
+                .splineTo(new Vector2d(61.1,-10),toRadians(0))
+
+                .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.firstConePos);   intake.tiltDown();})
                 .waitSeconds(0.2)
                 .build();
 
         // Go from stack back to the top pole
         TrajectorySequence stepThree = drive.trajectorySequenceBuilder(stepTwo.end())
-                .waitSeconds(0.3)
+                .waitSeconds(0.5)
                 .addDisplacementMarker(()->{slides.raiseToMiddle();})
                 .addDisplacementMarker(4,()-> {intake.tiltUp();})
-//                .back(20)
-                .lineToLinearHeading(new Pose2d(32.5,-17,toRadians(-135)))
-                .forward(2)
+                .back(13)
+                .lineToLinearHeading(new Pose2d(33,-15,toRadians(-135)))
+                .forward(2.7)
                 .waitSeconds(0.3)
                 .build();
 
 // same as before, but lower for the second cone
         TrajectorySequence stepTwoSecondCone = drive.trajectorySequenceBuilder(stepThree.end())
 
-                .back(81)
+                .back(10)
                 .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.secondConePos);  intake.tiltDown();})
                 .lineToSplineHeading(AutoConstants.stackPositionRight)
                 .waitSeconds(0.2)
@@ -162,7 +165,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(61,-11,toRadians(90)))
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(stepThree.end())
-                .back(5)
+                .back(8)
                 .addDisplacementMarker(5,()->{slides.lowerToBottom();})
                 .lineToLinearHeading(new Pose2d(11,-11,toRadians(90)))
                 .back(4)
