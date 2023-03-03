@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 
 // Note: this is currenlty basically copy / pasted from LRR, I will work on it more.
 @Autonomous(name="1+1 high - LEFT SIDE")
+@Disabled
 public class AsyncAutoLeft extends LinearOpMode {
 
     OpenCvCamera camera;

@@ -61,6 +61,8 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
         TRAJECTORY_4,
         TRAJECTORY_5,
         TRAJECTORY_6,
+        TRAJECTORY_7,
+        TRAJECTORY_8,
         PARKING,
         IDLE
     }
@@ -113,7 +115,6 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
         // drive to pole
         TrajectorySequence stepOne = drive.trajectorySequenceBuilder(AutoConstants.initialPositionRight)
                 .addDisplacementMarker(() -> {slides.lowerToBottom(); })
-//                .waitSeconds(0.5)
                 .addDisplacementMarker(0.4,()-> {intake.tiltUp();})
                 .addDisplacementMarker(5,()-> {slides.raiseToMiddle();})
                 .forward(20)
@@ -122,20 +123,17 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
         // after the slides go up, drive forward and place on pole
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
                 .forward(AutoConstants.highPoleForward)
-//                .waitSeconds(0.3)
-                .addDisplacementMarker(AutoConstants.highPoleForward - 0.2,() -> {intake.close();})
+                .addDisplacementMarker(AutoConstants.highPoleForward - 0.1,() -> {intake.close();})
                 .waitSeconds(0.3)
                 .build();
 // GO back from the pole and approach the stack
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
                 .lineToLinearHeading(new Pose2d(39.6,-35,toRadians(90)))
                 .forward(20)
-//                .splineTo(new Vector2d(39,-10.0),toRadians(0))
-                .splineTo(new Vector2d(50,-11.5),toRadians(0))
-                .splineTo(new Vector2d(61.1,-10),toRadians(0))
-
+                .splineTo(new Vector2d(50,-10),toRadians(0))
+                .forward(11.1)
+//                .splineTo(new Vector2d(61.1,-10),toRadians(0))
                 .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.firstConePos);   intake.tiltDown();})
-                .waitSeconds(0.2)
                 .build();
 
         // Go from stack back to the top pole
@@ -144,9 +142,9 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                 .addDisplacementMarker(()->{slides.raiseToMiddle();})
                 .addDisplacementMarker(4,()-> {intake.tiltUp();})
                 .back(13)
-                .lineToLinearHeading(new Pose2d(33,-15,toRadians(-135)))
-                .forward(2.7)
-                .waitSeconds(0.3)
+                .lineToLinearHeading(new Pose2d(34.5,-15,toRadians(-135)))
+                .waitSeconds(0.2)
+                .forward(3.5)
                 .build();
 
 // same as before, but lower for the second cone
@@ -155,27 +153,35 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                 .back(10)
                 .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.secondConePos);  intake.tiltDown();})
                 .lineToSplineHeading(AutoConstants.stackPositionRight)
-                .waitSeconds(0.2)
+                .waitSeconds(0.1)
                 .build();
+
+        TrajectorySequence stepTwoThirdCone = drive.trajectorySequenceBuilder(stepThree.end())
+
+                .back(10)
+                .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.thirdConePos);  intake.tiltDown();})
+                .lineToSplineHeading(AutoConstants.stackPositionRight)
+                .waitSeconds(0.1)
+                .build();
+
+
 
 // PARKING!
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(stepThree.end())
-                .back(5)
-                .addDisplacementMarker(5,()->{slides.lowerToBottom();})
+                .back(7)
+                .addDisplacementMarker(5,()->{slides.lowerToBottom(); intake.tiltForInit();})
                 .lineToLinearHeading(new Pose2d(61,-11,toRadians(90)))
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(stepThree.end())
                 .back(8)
-                .addDisplacementMarker(5,()->{slides.lowerToBottom();})
-                .lineToLinearHeading(new Pose2d(11,-11,toRadians(90)))
-                .back(4)
+                .addDisplacementMarker(5,()->{slides.lowerToBottom(); intake.tiltForInit();})
+                .lineToLinearHeading(new Pose2d(11,-12,toRadians(90)))
                 .build();
 
         TrajectorySequence parkCenter = drive.trajectorySequenceBuilder(stepThree.end())
-                .back(9)
+                .back(8)
                 .turn(toRadians(-45))
-                .waitSeconds(0.2)
-                .addDisplacementMarker(6,()->{slides.lowerToBottom();})
+                .addDisplacementMarker(6,()->{slides.lowerToBottom(); intake.tiltForInit();})
 //                .lineToLinearHeading(new Pose2d(35,-11,toRadians(90)))
                 .build();
 
@@ -303,7 +309,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                     }
                     break;
                 case TRAJECTORY_2:
-                    // Go to pole
+
                     if (!drive.isBusy()) {
                         currentState = State.TRAJECTORY_3;
                         drive.followTrajectorySequenceAsync(stepTwo);
@@ -320,36 +326,57 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                     break;
 
                 case TRAJECTORY_4:
+
                     if (!drive.isBusy()) {
                         intake.close();
                         currentState = State.TRAJECTORY_5;
                         drive.followTrajectorySequenceAsync(stepTwoSecondCone);
                     }
                     break;
+
                 case TRAJECTORY_5:
                     if (!drive.isBusy()) {
                         intake.open();
-                        currentState = State.TRAJECTORY_6;
+                        currentState = State.TRAJECTORY_8;
                         drive.followTrajectorySequenceAsync(stepThree);
                     }
                     break;
-                case TRAJECTORY_6:
+//                case TRAJECTORY_6:
+//                    if(!drive.isBusy()){
+//                        intake.close();
+//                        currentState = State.PARKING;
+////                        drive.followTrajectorySequenceAsync(stepTwoThirdCone);
+//                    }
+//                    break;
+//                case TRAJECTORY_7:
+//                    if (!drive.isBusy()) {
+//                        intake.open();
+//                        currentState = State.TRAJECTORY_8;
+//                        drive.followTrajectorySequenceAsync(stepThree);
+//
+//                    }
+//                    break;
+
+                case TRAJECTORY_8:
                     if (!drive.isBusy()) {
+
                         intake.close();
                         currentState = State.PARKING;
-//                        if(parking_location == AutoRight.PARKING_LOCATION.LEFT) {
+
+                        if(parking_location == AutoRight.PARKING_LOCATION.LEFT) {
                             drive.followTrajectorySequenceAsync(parkLeft);
-//                        } else if (parking_location == AutoRight.PARKING_LOCATION.RIGHT){
-//                            drive.followTrajectorySequenceAsync(parkRight);
-//                        } else{
-//                            drive.followTrajectorySequenceAsync(parkCenter);
-//                        }
+                        } else if (parking_location == AutoRight.PARKING_LOCATION.RIGHT){
+                            drive.followTrajectorySequenceAsync(parkRight);
+                        } else{
+                            drive.followTrajectorySequenceAsync(parkCenter);
+                        }
                     }
                     break;
                 case PARKING:
                     if(!drive.isBusy()){
                         currentState = State.IDLE;
                     }
+                    break;
 
                 case IDLE:
                     // Do nothing in IDLE

@@ -18,7 +18,7 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(30,30,toRadians(180),toRadians(180),15)
+                .setConstraints(40,40,toRadians(180),toRadians(180),15)
                 .followTrajectorySequence(drive ->
 //
 //                        //  HIGH GOAL
@@ -45,12 +45,36 @@ public class MeepMeepTesting {
                                         .forward(2)
                                         .waitSeconds(0.5)
                                         // Get in line with the stack
-                                        .lineToLinearHeading(new Pose2d(40,-35,toRadians(90)))
-                                        .splineTo(new Vector2d(39,-10.0),toRadians(0))
-                                        .splineTo(new Vector2d(60.9,-10),toRadians(0))
+                                        .lineToLinearHeading(new Pose2d(39.6,-35,toRadians(90)))
+                                        .forward(20)
+                                        .splineTo(new Vector2d(50,-11.5),toRadians(0))
+                                        .lineTo(new Vector2d(61.1,-10))
+                                        .waitSeconds(0.2)
+                                        .waitSeconds(0.5)
+                                        .back(13)
+                                        .lineToLinearHeading(new Pose2d(33,-15,toRadians(-135)))
+                                        .forward(2.7)
                                         .waitSeconds(0.3)
-                                        .lineToLinearHeading(new Pose2d(32.5,-17,toRadians(-135)))
-                                        .forward(1)
+
+                                        .back(7)
+                                        .lineToLinearHeading(new Pose2d(61,-11,toRadians(90)))
+
+//
+//                                        // cycle #2
+//                                        .back(10)
+//                                        .lineToSplineHeading(new Pose2d(61.1,-10,toRadians(0)))
+//                                        .waitSeconds(0.2)
+//
+//                                        .waitSeconds(0.5)
+//                                        .back(13)
+//                                        .lineToLinearHeading(new Pose2d(33,-15,toRadians(-135)))
+//                                        .forward(2.7)
+//                                        .waitSeconds(0.3)
+//
+//                                        // park
+//                                        .back(8)
+//                                        .lineToLinearHeading(new Pose2d(11,-11,toRadians(90)))
+//                                        .back(4)
 
 //
 //                                        // Cycles

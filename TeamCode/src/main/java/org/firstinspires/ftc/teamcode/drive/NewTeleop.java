@@ -67,14 +67,14 @@ public class NewTeleop extends LinearOpMode {
                         lift_state = LIFT_STATE.MANUAL_UP;
                     } else if (gamepad2.dpad_down || gamepad1.x) {
                         lift_state = LIFT_STATE.MANUAL_DOWN;
-                    } else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+                    } else if (gamepad1.right_bumper || gamepad2.y) {
                         // Transition to automatic moving
                         // Move to the top
                         // RaiseToTop sets the target position, and then by transitioning the state the PID controller will run.
                         slides.raiseToTop();
                         lift_state = LIFT_STATE.AUTO_MOVE;
                         slides.setupMP();
-                    } else if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                    } else if (gamepad1.left_bumper || gamepad2.a) {
                         // or move to the bottom automatically
                         slides.lowerToBottom();
                         intake.close();
@@ -82,13 +82,13 @@ public class NewTeleop extends LinearOpMode {
                         lift_state = LIFT_STATE.AUTO_MOVE;
                         slides.setupMP();
 
-                    } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
+                    } else if (gamepad1.dpad_left || gamepad2.x) {
                         slides.raiseToLow();
 
                         lift_state = LIFT_STATE.AUTO_MOVE;
                         slides.setupMP();
 
-                    } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
+                    } else if (gamepad1.dpad_right || gamepad2.b) {
                         slides.raiseToMiddle();
                         lift_state = LIFT_STATE.AUTO_MOVE;
                         slides.setupMP();
@@ -135,14 +135,14 @@ public class NewTeleop extends LinearOpMode {
             }
 
             // Driver intake controls
-            if (gamepad1.right_trigger > 0.1 || gamepad2.right_trigger > 0.1) {
+            if (gamepad1.right_trigger > 0.1) {
                 intake.open();
-            } else if (gamepad1.left_trigger > 0.1 || gamepad2.left_trigger > 0.1) {
+            } else if (gamepad1.left_trigger > 0.1 ) {
                 intake.close();
             }
-            if (gamepad1.a) {
+            if (gamepad1.b) {
                 intake.tiltUp();
-            } else if (gamepad1.b) {
+            } else if (gamepad1.a) {
                 intake.tiltDown();
             }
 

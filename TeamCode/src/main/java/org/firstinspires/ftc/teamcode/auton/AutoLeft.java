@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 @Config
 @Autonomous(name = "Auto - Left side")
+@Disabled
 public class AutoLeft extends LinearOpMode
 {
     // Create a RobotHardware object to be used to access robot hardware.

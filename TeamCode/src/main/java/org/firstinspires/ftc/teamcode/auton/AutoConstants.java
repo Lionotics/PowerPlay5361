@@ -28,5 +28,6 @@ public class AutoConstants {
 
     public static int firstConePos = -500;
     public static int secondConePos = -380;
+    public static int thirdConePos = -260;
 
 }

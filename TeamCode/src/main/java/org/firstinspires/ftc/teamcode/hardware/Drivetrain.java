@@ -16,7 +16,7 @@ public class Drivetrain extends Mechanism{
 
     DcMotor motorFrontLeft,motorBackLeft,motorFrontRight,motorBackRight;
     IMU imu;
-    public static double SPEED_MULTIPLIER = 0.8;
+    public static double SPEED_MULTIPLIER = 0.9;
     private double offset = 0;
 
     @Override
