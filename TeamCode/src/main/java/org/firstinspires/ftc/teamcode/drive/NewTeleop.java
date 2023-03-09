@@ -93,8 +93,12 @@ public class NewTeleop extends LinearOpMode {
                         lift_state = LIFT_STATE.AUTO_MOVE;
                         slides.setupMP();
 
-                    }
-                    break;
+                    } else if (gamepad2.right_bumper){
+                        slides.goToBeacon();
+                        lift_state = LIFT_STATE.AUTO_MOVE;
+                        slides.setupMP();
+
+                    }                    break;
 
                 case MANUAL_UP:
                     if ((!gamepad1.y && !gamepad2.dpad_up) || slidesPos < Slides.SLIDES_TOP_POS) {
@@ -111,6 +115,7 @@ public class NewTeleop extends LinearOpMode {
                         slides.moveDown();
                     }
                     break;
+
                 case AUTO_MOVE:
                     slides.moveTowardsGoal();
                     if (gamepad2.dpad_down || gamepad1.x) {
@@ -135,9 +140,9 @@ public class NewTeleop extends LinearOpMode {
             }
 
             // Driver intake controls
-            if (gamepad1.right_trigger > 0.1) {
+            if (gamepad1.right_trigger > 0.1 || gamepad2.right_trigger > 0.1) {
                 intake.open();
-            } else if (gamepad1.left_trigger > 0.1 ) {
+            } else if (gamepad1.left_trigger > 0.1 || gamepad2.left_trigger > 0.1) {
                 intake.close();
             }
             if (gamepad1.b) {
@@ -176,6 +181,7 @@ public class NewTeleop extends LinearOpMode {
         AUTO_MOVE,
         MANUAL_UP,
         MANUAL_DOWN,
+
         HOLDING
     }
 }

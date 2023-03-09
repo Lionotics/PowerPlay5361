@@ -38,26 +38,26 @@ public class MeepMeepTesting {
 
                                 //  Medium GOAL
                                 // Note - Should probably be rewritten so there are "forwards and backs" into poles / stack, will lead to more reliablity.
-                                drive.trajectorySequenceBuilder(new Pose2d(35.25, -61.5, toRadians(90)))
-                                        // First cone
+                                drive.trajectorySequenceBuilder(new Pose2d(-35.25, -61.5, toRadians(90)))
                                         .forward(20)
-                                        .splineTo(new Vector2d(31,-30),toRadians(135))
+                                        .splineTo(new Vector2d(-31,-30),toRadians(45))
                                         .forward(2)
-                                        .waitSeconds(0.5)
-                                        // Get in line with the stack
-                                        .lineToLinearHeading(new Pose2d(39.6,-35,toRadians(90)))
+                                        .lineToLinearHeading(new Pose2d(-39,-35,toRadians(90)))
                                         .forward(20)
-                                        .splineTo(new Vector2d(50,-11.5),toRadians(0))
-                                        .lineTo(new Vector2d(61.1,-10))
-                                        .waitSeconds(0.2)
-                                        .waitSeconds(0.5)
+                                        .splineTo(new Vector2d(-50,-10),toRadians(180))
+                                        .forward(12.1)
                                         .back(13)
-                                        .lineToLinearHeading(new Pose2d(33,-15,toRadians(-135)))
-                                        .forward(2.7)
-                                        .waitSeconds(0.3)
+                                        .lineToLinearHeading(new Pose2d(-34.5,-15,toRadians(-45)))
+                                        .waitSeconds(0.2)
+                                        .forward(3.5)
+                                        .back(10)
+                                        .lineToSplineHeading(new Pose2d(-62.1,-10,toRadians(180)))
 
-                                        .back(7)
-                                        .lineToLinearHeading(new Pose2d(61,-11,toRadians(90)))
+
+
+
+                                        // First cone
+
 
 //
 //                                        // cycle #2

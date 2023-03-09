@@ -22,8 +22,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 // Note: this is currenlty basically copy / pasted from LRR, I will work on it more.
-@Autonomous(name="1+2 Medium - RIGHT SIDE")
-public class AsyncAutoMiddleRight extends LinearOpMode {
+@Autonomous(name="Just park - LEFT SIDE")
+public class AsyncAutoMiddleLeft extends LinearOpMode {
 
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -70,7 +70,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
 
     // Define our start pose
     // This assumes we start at x: 15, y: 10, heading: 180 degrees
-    Pose2d startPose = new Pose2d(35.25, -61.5, Math.toRadians(90));
+    Pose2d startPose = new Pose2d(-35.25, -61.5, Math.toRadians(90));
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -100,7 +100,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         // Set initial pose
-        drive.setPoseEstimate(AutoConstants.initialPositionRight);
+        drive.setPoseEstimate(AutoConstants.initialPositionLeft);
 
         Intake intake = new Intake();
         intake.init(hardwareMap);
@@ -113,12 +113,12 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
 
         AutoRight.PARKING_LOCATION parking_location = AutoRight.PARKING_LOCATION.LEFT;
         // drive to pole
-        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(AutoConstants.initialPositionRight)
+        TrajectorySequence stepOne = drive.trajectorySequenceBuilder(AutoConstants.initialPositionLeft)
                 .addDisplacementMarker(() -> {slides.lowerToBottom(); })
                 .addDisplacementMarker(0.4,()-> {intake.tiltUp();})
                 .addDisplacementMarker(5,()-> {slides.raiseToMiddle();})
                 .forward(20)
-                .splineTo(new Vector2d(AutoConstants.mediumPoleRight.getX(),AutoConstants.mediumPoleRight.getY()),toRadians(135))
+                .splineTo(new Vector2d(AutoConstants.mediumPoleLeft.getX(),AutoConstants.mediumPoleLeft.getY()),toRadians(45))
                 .build();
         // after the slides go up, drive forward and place on pole
         TrajectorySequence stepOnePointFive = drive.trajectorySequenceBuilder(stepOne.end())
@@ -128,11 +128,11 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                 .build();
 // GO back from the pole and approach the stack
         TrajectorySequence stepTwo = drive.trajectorySequenceBuilder(stepOnePointFive.end())
-                .lineToLinearHeading(new Pose2d(39,-35,toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-39,-35,toRadians(90)))
                 .forward(20)
-                .splineTo(new Vector2d(50,-10),toRadians(0))
+                .splineTo(new Vector2d(-50,-10),toRadians(180))
                 .forward(11.1)
-//                .splineTo(new Vector2d(61.1,-10),toRadians(0))
+//                .splineTo(new Vector2d(-61.1,-10),toRadians(180))
                 .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.firstConePos);   intake.tiltDown();})
                 .build();
 
@@ -142,7 +142,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                 .addDisplacementMarker(()->{slides.raiseToMiddle();})
                 .addDisplacementMarker(4,()-> {intake.tiltUp();})
                 .back(13)
-                .lineToLinearHeading(new Pose2d(34.5,-15,toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-34.5,-15,toRadians(-45)))
                 .waitSeconds(0.2)
                 .forward(3.5)
                 .build();
@@ -152,7 +152,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
 
                 .back(10)
                 .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.secondConePos);  intake.tiltDown();})
-                .lineToSplineHeading(AutoConstants.stackPositionRight)
+                .lineToSplineHeading(AutoConstants.stackPositionLeft)
                 .waitSeconds(0.1)
                 .build();
 
@@ -160,7 +160,7 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
 
                 .back(10)
                 .addDisplacementMarker(10, () -> {slides.setTarget(AutoConstants.thirdConePos);  intake.tiltDown();})
-                .lineToSplineHeading(AutoConstants.stackPositionRight)
+                .lineToSplineHeading(AutoConstants.stackPositionLeft)
                 .waitSeconds(0.1)
                 .build();
 
@@ -170,12 +170,12 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(stepThree.end())
                 .back(7)
                 .addDisplacementMarker(5,()->{slides.lowerToBottom(); intake.tiltForInit();})
-                .lineToLinearHeading(new Pose2d(60,-11,toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-12,-11,toRadians(90)))
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(stepThree.end())
                 .back(7)
                 .addDisplacementMarker(5,()->{slides.lowerToBottom(); intake.tiltForInit();})
-                .lineToLinearHeading(new Pose2d(12,-11,toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-60,-11,toRadians(90)))
                 .build();
 
         TrajectorySequence parkCenter = drive.trajectorySequenceBuilder(stepThree.end())
@@ -365,9 +365,9 @@ public class AsyncAutoMiddleRight extends LinearOpMode {
                         currentState = State.PARKING;
 
                         if(parking_location == AutoRight.PARKING_LOCATION.LEFT) {
-                            drive.followTrajectorySequenceAsync(parkLeft);
-                        } else if (parking_location == AutoRight.PARKING_LOCATION.RIGHT){
                             drive.followTrajectorySequenceAsync(parkRight);
+                        } else if (parking_location == AutoRight.PARKING_LOCATION.RIGHT){
+                            drive.followTrajectorySequenceAsync(parkLeft);
                         } else{
                             drive.followTrajectorySequenceAsync(parkCenter);
                         }

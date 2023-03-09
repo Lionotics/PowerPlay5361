@@ -27,6 +27,7 @@ public class Slides extends Mechanism{
     public static int SLIDES_BOTTOM_POS = 0;
     public static int SLIDES_LOW_POS = -870;
     public static int SLIDES_MIDDLE_POS = -1765;
+    public static int SLIDES_BEACON_POS = -100;
 
     public static int SLIDES_TILT_SWITCH_POS = -700;
 
@@ -35,7 +36,7 @@ public class Slides extends Mechanism{
     // PID + mp
     // Not the best tune ever, but could use some work
     public static double Kg = 0;
-    public static double Kp = 0.006;
+    public static double Kp = 0.008;
     public static double Ki = 0;
     public static double Kd = 0.001;
     // Not currently using MP, tbd
@@ -114,6 +115,7 @@ public class Slides extends Mechanism{
     public void raiseToLow(){this.setTarget(SLIDES_LOW_POS);}
     public void raiseToMiddle(){this.setTarget(SLIDES_MIDDLE_POS);}
     public double getVelocity(){return lift.getVelocity();}
+    public void goToBeacon(){this.setTarget(SLIDES_BEACON_POS);}
 
     public void moveTowardsGoal(){
         double power = -(controller.calculate(targetPosition, this.getPosition()) + Kg);
